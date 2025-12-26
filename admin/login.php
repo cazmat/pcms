@@ -1,4 +1,9 @@
 <?php
+  define("ROOT_PATH", "../");
+  
+  require_once(ROOT_PATH ."includes/init.php");
+
+
 require_once __DIR__ . '/../includes/functions.php';
 
 // Start session
@@ -84,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - <?php echo e(SITE_NAME); ?></title>
+    <title>Admin Login - <?php echo e($system->get_setting("site_name")); ?></title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="login-page">
     <div class="login-container">
         <div class="login-box">
             <h1>Admin Login</h1>
-            <p class="login-subtitle"><?php echo e(SITE_NAME); ?></p>
+            <p class="login-subtitle"><?php echo e($system->get_setting("site_name")); ?></p>
 
             <?php if (!empty($errors)): ?>
                 <div class="alert alert-error">
@@ -127,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="login-footer">
-                <a href="../index.php">&larr; Back to Blog</a>
+                <a href=<?php echo e($system->get_setting('base_url')); ?>/index.php">&larr; Back to Blog</a>
             </div>
         </div>
     </div>

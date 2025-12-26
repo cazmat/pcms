@@ -1,4 +1,8 @@
 <?php
+  define("ROOT_PATH", "./");
+  
+  require_once(ROOT_PATH ."includes/init.php");
+
 require_once __DIR__ . '/includes/functions.php';
 
 if (!isset($_GET['slug'])) {
@@ -17,16 +21,16 @@ if (!$post) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo e($post['title']); ?> - <?php echo e(SITE_NAME); ?></title>
+    <title><?php echo e($post['title']); ?> - <?php echo e($system->get_setting("site_name")); ?></title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1><a href="index.php"><?php echo e(SITE_NAME); ?></a></h1>
+            <h1><a href="index.php"><?php echo e($system->get_setting("site_name")); ?></a></h1>
             <nav>
-                <a href="index.php">Home</a>
-                <a href="admin/index.php">Admin</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/index.php">Home</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/index.php">Admin</a>
             </nav>
         </div>
     </header>
@@ -45,14 +49,14 @@ if (!$post) {
                 <?php echo $post['content']; ?>
             </div>
             <div class="post-actions">
-                <a href="index.php" class="btn-back">&larr; Back to all posts</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/index.php" class="btn-back">&larr; Back to all posts</a>
             </div>
         </article>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> <?php echo e(SITE_NAME); ?>. All rights reserved.</p>
+            <p>&copy; <?php echo date('Y'); ?> <?php echo e($system->get_setting("site_name")); ?>. All rights reserved.</p>
         </div>
     </footer>
 </body>

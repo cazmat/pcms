@@ -1,4 +1,7 @@
 <?php
+  define("ROOT_PATH", "../");
+  
+  require_once(ROOT_PATH ."includes/init.php");
 require_once __DIR__ . '/../includes/functions.php';
 
 // Require authentication
@@ -91,7 +94,7 @@ $formData = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $isEdit ? 'Edit' : 'Create'; ?> Post - <?php echo e(SITE_NAME); ?></title>
+    <title><?php echo $isEdit ? 'Edit' : 'Create'; ?> Post - <?php echo e($system->get_setting("site_name")); ?></title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -99,11 +102,11 @@ $formData = [
         <div class="container">
             <h1><?php echo $isEdit ? 'Edit' : 'Create'; ?> Post</h1>
             <nav>
-                <a href="../index.php">View Blog</a>
-                <a href="index.php">Manage Posts</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/index.php">View Blog</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/index.php">Manage Posts</a>
                 <span class="nav-divider">|</span>
                 <span class="nav-user">Logged in as: <strong><?php echo e($current_user['username']); ?></strong></span>
-                <a href="logout.php" class="btn-logout">Log Out</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/logout.php" class="btn-logout">Log Out</a>
             </nav>
         </div>
     </header>
@@ -163,14 +166,14 @@ $formData = [
                 <button type="submit" class="btn btn-primary">
                     <?php echo $isEdit ? 'Update' : 'Create'; ?> Post
                 </button>
-                <a href="index.php" class="btn btn-secondary">Cancel</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/index.php" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> <?php echo e(SITE_NAME); ?>. All rights reserved.</p>
+            <p>&copy; <?php echo date('Y'); ?> <?php echo e($system->get_setting("site_name")); ?>. All rights reserved.</p>
         </div>
     </footer>
 </body>

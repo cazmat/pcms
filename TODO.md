@@ -80,8 +80,8 @@ None currently.
 ### Medium Priority - User Experience
 
 - [ ] **Settings System**
-  - [ ] Create settings.php file for editable settings
-  - [ ] Move SITE_NAME and POSTS_PER_PAGE to settings.php
+  - [x] Create settings.php file for editable settings
+  - [x] Move SITE_NAME and POSTS_PER_PAGE to settings.php
   - [ ] Admin settings page with form UI
   - [ ] Settings: Admin email, timezone, date format, maintenance mode
   - [ ] Input validation and reset to defaults
@@ -137,6 +137,7 @@ None currently.
 ### Low Priority - Nice to Have
 
 - [ ] **Additional Error Pages**
+  - [ ] Custom 402 error page (Payment Required)
   - [ ] Custom 403 error page (Forbidden)
 
 - [ ] **Comments System**

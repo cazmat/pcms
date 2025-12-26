@@ -1,4 +1,8 @@
 <?php
+  define("ROOT_PATH", "../");
+  
+  require_once(ROOT_PATH ."includes/init.php");
+  
 require_once __DIR__ . '/../includes/functions.php';
 
 // Require authentication
@@ -30,7 +34,7 @@ if (isset($_GET['created'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - <?php echo e(SITE_NAME); ?></title>
+    <title>Admin - <?php echo e($system->get_setting("site_name")); ?></title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -38,11 +42,11 @@ if (isset($_GET['created'])) {
         <div class="container">
             <h1>Admin Panel</h1>
             <nav>
-                <a href="../index.php">View Blog</a>
-                <a href="index.php">Manage Posts</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/index.php">View Blog</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/index.php">Manage Posts</a>
                 <span class="nav-divider">|</span>
                 <span class="nav-user">Logged in as: <strong><?php echo e($current_user['username']); ?></strong></span>
-                <a href="logout.php" class="btn-logout">Log Out</a>
+                <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/logout.php" class="btn-logout">Log Out</a>
             </nav>
         </div>
     </header>
@@ -50,7 +54,7 @@ if (isset($_GET['created'])) {
     <main class="container">
         <div class="admin-header">
             <h2>Manage Posts</h2>
-            <a href="edit.php" class="btn btn-primary">Create New Post</a>
+            <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/edit.php" class="btn btn-primary">Create New Post</a>
         </div>
 
         <?php if ($message): ?>
@@ -86,12 +90,12 @@ if (isset($_GET['created'])) {
                                 <td><?php echo formatDate($post['created_at']); ?></td>
                                 <td class="actions">
                                     <?php if ($post['status'] === 'published'): ?>
-                                        <a href="../post.php?slug=<?php echo e($post['slug']); ?>"
+                                        <a href="<?php echo e($system->get_setting('base_url')); ?>/post.php?slug=<?php echo e($post['slug']); ?>"
                                            target="_blank" class="btn btn-small">View</a>
                                     <?php endif; ?>
-                                    <a href="edit.php?id=<?php echo $post['id']; ?>"
+                                    <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/edit.php?id=<?php echo $post['id']; ?>"
                                        class="btn btn-small">Edit</a>
-                                    <a href="index.php?delete=1&id=<?php echo $post['id']; ?>"
+                                    <a href="<?php echo e($system->get_setting('base_url')); ?>/admin/index.php?delete=1&id=<?php echo $post['id']; ?>"
                                        class="btn btn-small btn-danger"
                                        onclick="return confirm('Are you sure you want to delete this post?')">Delete</a>
                                 </td>
@@ -105,7 +109,7 @@ if (isset($_GET['created'])) {
 
     <footer>
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> <?php echo e(SITE_NAME); ?>. All rights reserved.</p>
+            <p>&copy; <?php echo date('Y'); ?> <?php echo e($system->get_setting("site_name")); ?>. All rights reserved.</p>
         </div>
     </footer>
 </body>
