@@ -1,0 +1,25 @@
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Configuration files with sensitive data
+includes/config.local.php
+
+# Temporary files
+*.tmp
+*.log
+
+# Uploaded files (if you add image upload feature)
+uploads/
+
+# PHP
+vendor/
+composer.lock
+
+# Database backups
+*.sql.backup
+backups/
