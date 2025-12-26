@@ -181,31 +181,44 @@ None currently.
 
 ## 🎯 Version Milestones
 
-### v0.1 (Current) - MVP
+### v0.1 - MVP ✅
 - Basic blog functionality
 - Admin CRUD operations
 - MySQLi database layer
+- Sample data and setup
 
-### v0.5 - Security & Core Features
-- Authentication system
-- CSRF protection
-- Pagination
-- Clean URLs
-- Error handling
+### v0.2 (Current) - Authentication & Clean URLs ✅
+- Complete authentication system with login/logout
+- "Remember Me" functionality with secure tokens
+- Rate limiting for login attempts
+- Interactive setup.php script
+- Clean URLs with mod_rewrite (.htaccess)
+- Nginx configuration support
+- Custom error pages (404, 500)
+- Security headers implementation
+- Browser caching and GZIP compression
+
+### v0.5 - Security Hardening
+- CSRF protection for forms
+- Pagination (frontend and admin)
+- Enhanced input validation
+- Content Security Policy (CSP)
+- Error logging system
 
 ### v0.8 - Enhanced UX
-- Rich text editor
-- Image uploads
+- Rich text editor (WYSIWYG)
+- Image upload and management
 - Search functionality
 - Categories & tags
-- SEO improvements
+- SEO meta tags and improvements
 
 ### v1.0 - Production Ready
+- Password reset functionality
 - All security features implemented
-- Comprehensive documentation
-- Testing completed
+- Comprehensive testing completed
 - Performance optimized
 - Production deployment ready
+- Full documentation
 
 ## 📝 Notes
 
@@ -235,5 +248,5 @@ None currently reported.
 ---
 
 Last Updated: 2025-12-26
-Current Version: 0.1-dev
+Current Version: 0.2
 Target Release: v1.0
