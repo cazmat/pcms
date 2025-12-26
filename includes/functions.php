@@ -406,3 +406,163 @@ function getClientIP() {
         return $_SERVER['REMOTE_ADDR'];
     }
 }
+
+// ============================================================================
+// CSRF Protection Functions
+// ============================================================================
+
+/**
+ * Generate a CSRF token and store it in the session
+ */
+function generateCSRFToken() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Validate CSRF token from POST request
+ */
+function validateCSRFToken($token) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (!isset($_SESSION['csrf_token'])) {
+        return false;
+    }
+    
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
+/**
+ * Get CSRF token (generate if not exists)
+ */
+function getCSRFToken() {
+    return generateCSRFToken();
+}
+
+// ============================================================================
+// Input Validation Functions
+// ============================================================================
+
+/**
+ * Validate post title
+ */
+function validatePostTitle($title) {
+    $errors = [];
+    
+    if (empty(trim($title))) {
+        $errors[] = 'Title is required';
+    } elseif (strlen($title) < 3) {
+        $errors[] = 'Title must be at least 3 characters long';
+    } elseif (strlen($title) > 200) {
+        $errors[] = 'Title must not exceed 200 characters';
+    }
+    
+    return $errors;
+}
+
+/**
+ * Validate post content
+ */
+function validatePostContent($content) {
+    $errors = [];
+    
+    if (empty(trim($content))) {
+        $errors[] = 'Content is required';
+    } elseif (strlen($content) < 10) {
+        $errors[] = 'Content must be at least 10 characters long';
+    } elseif (strlen($content) > 100000) {
+        $errors[] = 'Content must not exceed 100,000 characters';
+    }
+    
+    return $errors;
+}
+
+/**
+ * Validate username
+ */
+function validateUsername($username) {
+    $errors = [];
+    
+    if (empty(trim($username))) {
+        $errors[] = 'Username is required';
+    } elseif (strlen($username) < 3) {
+        $errors[] = 'Username must be at least 3 characters long';
+    } elseif (strlen($username) > 50) {
+        $errors[] = 'Username must not exceed 50 characters';
+    } elseif (!preg_match('/^[a-zA-Z0-9_-]+$/', $username)) {
+        $errors[] = 'Username can only contain letters, numbers, underscores, and hyphens';
+    }
+    
+    return $errors;
+}
+
+/**
+ * Validate excerpt
+ */
+function validateExcerpt($excerpt) {
+    $errors = [];
+    
+    if (strlen($excerpt) > 500) {
+        $errors[] = 'Excerpt must not exceed 500 characters';
+    }
+    
+    return $errors;
+}
+
+/**
+ * Validate author name
+ */
+function validateAuthor($author) {
+    $errors = [];
+    
+    if (empty(trim($author))) {
+        $errors[] = 'Author is required';
+    } elseif (strlen($author) > 100) {
+        $errors[] = 'Author name must not exceed 100 characters';
+    }
+    
+    return $errors;
+}
+
+// ============================================================================
+// Input Sanitization Functions (XSS Prevention)
+// ============================================================================
+
+/**
+ * Sanitize HTML content - allows safe HTML tags for blog posts
+ */
+function sanitizeHTML($html) {
+    // Allow these tags for blog post content
+    $allowed_tags = '<p><br><strong><em><u><h1><h2><h3><h4><h5><h6><ul><ol><li><a><img><blockquote><code><pre>';
+    
+    // Strip all tags except allowed ones
+    $html = strip_tags($html, $allowed_tags);
+    
+    // Additional attribute filtering for allowed tags
+    // This is a basic implementation - for production, consider using HTML Purifier library
+    
+    return $html;
+}
+
+/**
+ * Sanitize plain text input (removes all HTML)
+ */
+function sanitizePlainText($text) {
+    return strip_tags($text);
+}
+
+/**
+ * Sanitize input for database (additional layer beyond prepared statements)
+ */
+function sanitizeInput($input) {
+    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+}

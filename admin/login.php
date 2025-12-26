@@ -34,13 +34,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $remember = isset($_POST['remember']);
+    $csrf_token = $_POST['csrf_token'] ?? '';
+
+    // Validate CSRF token
+    if (!validateCSRFToken($csrf_token)) {
+        $errors[] = 'Invalid security token. Please try again.';
+    }
 
     $ip_address = getClientIP();
 
     // Check for rate limiting
     if (checkLoginAttempts($ip_address)) {
         $errors[] = 'Too many login attempts. Please try again in 15 minutes.';
-    } else {
+    } elseif (empty($errors)) {
         // Validation
         if (empty($username)) {
             $errors[] = 'Username is required';
@@ -84,5 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 echo $template->render('pages/login.php', [
     'errors' => $errors,
-    'username' => $username
+    'username' => $username,
+    'csrf_token' => getCSRFToken()
 ]);

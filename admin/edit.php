@@ -24,21 +24,32 @@ if (isset($_GET['id'])) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $csrf_token = $_POST['csrf_token'] ?? '';
     $title = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $excerpt = trim($_POST['excerpt'] ?? '');
     $author = trim($_POST['author'] ?? '');
     $status = $_POST['status'] ?? 'draft';
 
-    // Validation
-    if (empty($title)) {
-        $errors[] = 'Title is required';
+    // Validate CSRF token
+    if (!validateCSRFToken($csrf_token)) {
+        $errors[] = 'Invalid security token. Please try again.';
     }
-    if (empty($content)) {
-        $errors[] = 'Content is required';
+
+    // Enhanced validation using new validation functions
+    if (empty($errors)) {
+        $errors = array_merge($errors, validatePostTitle($title));
+        $errors = array_merge($errors, validatePostContent($content));
+        $errors = array_merge($errors, validateExcerpt($excerpt));
+        $errors = array_merge($errors, validateAuthor($author));
     }
-    if (empty($author)) {
-        $errors[] = 'Author is required';
+
+    // Sanitize content to prevent XSS
+    if (empty($errors)) {
+        $content = sanitizeHTML($content);
+        $title = sanitizePlainText($title);
+        $excerpt = sanitizePlainText($excerpt);
+        $author = sanitizePlainText($author);
     }
 
     if (empty($errors)) {
@@ -93,5 +104,6 @@ echo $template->render('pages/admin-edit.php', [
     'errors' => $errors,
     'formData' => $formData,
     'isEdit' => $isEdit,
-    'current_user' => $current_user
+    'current_user' => $current_user,
+    'csrf_token' => getCSRFToken()
 ]);

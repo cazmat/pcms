@@ -84,6 +84,11 @@
 
     # Permissions policy
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+    # Content Security Policy
+    # Note: 'unsafe-inline' is allowed for styles due to inline CSS in error pages
+    # Consider moving inline styles to external CSS for stricter CSP in production
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
 </IfModule>
 
 # ============================================================================

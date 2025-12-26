@@ -23,6 +23,8 @@
             <?php endif; ?>
 
             <form method="POST" class="login-form">
+                <input type="hidden" name="csrf_token" value="{{ $csrf_token }}">
+
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" value="{{ $username }}" required autofocus>

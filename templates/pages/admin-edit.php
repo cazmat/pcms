@@ -16,6 +16,8 @@
 <?php endif; ?>
 
 <form method="POST" class="post-form">
+    <input type="hidden" name="csrf_token" value="{{ $csrf_token }}">
+
     <?php if ($isEdit): ?>
         <input type="hidden" name="id" value="{{ $formData['id'] }}">
         <input type="hidden" name="original_slug" value="{{ $formData['slug'] }}">
