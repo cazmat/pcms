@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/includes/functions.php';
 
 if (!isset($_GET['slug'])) {
     redirect('index.php');
@@ -18,7 +18,7 @@ if (!$post) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo e($post['title']); ?> - <?php echo e(SITE_NAME); ?></title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
@@ -26,7 +26,7 @@ if (!$post) {
             <h1><a href="index.php"><?php echo e(SITE_NAME); ?></a></h1>
             <nav>
                 <a href="index.php">Home</a>
-                <a href="../admin/index.php">Admin</a>
+                <a href="admin/index.php">Admin</a>
             </nav>
         </div>
     </header>

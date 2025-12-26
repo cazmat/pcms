@@ -20,9 +20,6 @@ pcms/
 ├── admin/              # Admin panel
 │   ├── index.php      # Manage posts
 │   └── edit.php       # Create/edit posts
-├── public/            # Public-facing pages
-│   ├── index.php      # Homepage (list all posts)
-│   └── post.php       # Single post view
 ├── includes/          # Core PHP files
 │   ├── config.php     # Configuration settings
 │   ├── db.php         # Database connection
@@ -31,6 +28,8 @@ pcms/
 │   └── style.css      # Main stylesheet
 ├── sql/               # Database scripts
 │   └── setup.sql      # Database setup script
+├── index.php          # Homepage (list all posts)
+├── post.php           # Single post view
 └── README.md          # This file
 ```
 
@@ -78,18 +77,17 @@ define('DB_NAME', 'blog_system');   // Database name
 
 Option A: Using PHP built-in server (for development):
 ```bash
-cd public
 php -S localhost:8000
 ```
 
 Option B: Using Apache/Nginx:
-- Point your virtual host document root to the `public/` directory
+- Point your virtual host document root to the project root directory
 - Ensure `.htaccess` is supported (Apache) or configure URL rewriting (Nginx)
 
 ### 5. Access the Blog
 
 - **Homepage**: http://localhost:8000/ (or your configured domain)
-- **Admin Panel**: http://localhost:8000/../admin/index.php
+- **Admin Panel**: http://localhost:8000/admin/index.php
 
 ## Usage
 

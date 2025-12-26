@@ -33,7 +33,7 @@ if (isset($_GET['created'])) {
         <div class="container">
             <h1>Admin Panel</h1>
             <nav>
-                <a href="../public/index.php">View Blog</a>
+                <a href="../index.php">View Blog</a>
                 <a href="index.php">Manage Posts</a>
             </nav>
         </div>
@@ -78,7 +78,7 @@ if (isset($_GET['created'])) {
                                 <td><?php echo formatDate($post['created_at']); ?></td>
                                 <td class="actions">
                                     <?php if ($post['status'] === 'published'): ?>
-                                        <a href="../public/post.php?slug=<?php echo e($post['slug']); ?>"
+                                        <a href="../post.php?slug=<?php echo e($post['slug']); ?>"
                                            target="_blank" class="btn btn-small">View</a>
                                     <?php endif; ?>
                                     <a href="edit.php?id=<?php echo $post['id']; ?>"

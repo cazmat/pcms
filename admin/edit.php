@@ -94,7 +94,7 @@ $formData = [
         <div class="container">
             <h1><?php echo $isEdit ? 'Edit' : 'Create'; ?> Post</h1>
             <nav>
-                <a href="../public/index.php">View Blog</a>
+                <a href="../index.php">View Blog</a>
                 <a href="index.php">Manage Posts</a>
             </nav>
         </div>
