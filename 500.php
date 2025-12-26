@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
+define("ROOT_PATH", "./");
+
+require_once(ROOT_PATH . "includes/init.php");
 require_once __DIR__ . '/includes/functions.php';
 
 // Set proper HTTP status code
@@ -10,7 +12,7 @@ http_response_code(500);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Error - <?php echo e(SITE_NAME); ?></title>
+    <title>Server Error - <?php echo e($system->get_setting("site_name")); ?></title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .error-page {
@@ -52,7 +54,7 @@ http_response_code(500);
 <body>
     <header>
         <div class="container">
-            <h1><a href="/"><?php echo e(SITE_NAME); ?></a></h1>
+            <h1><a href="/"><?php echo e($system->get_setting("site_name")); ?></a></h1>
         </div>
     </header>
 
@@ -72,7 +74,7 @@ http_response_code(500);
 
     <footer>
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> <?php echo e(SITE_NAME); ?>. All rights reserved.</p>
+            <p>&copy; <?php echo date('Y'); ?> <?php echo e($system->get_setting("site_name")); ?>. All rights reserved.</p>
         </div>
     </footer>
 </body>
