@@ -127,6 +127,9 @@ None currently.
 
 ### Low Priority - Nice to Have
 
+- [ ] **Additional Error Pages**
+  - [ ] Custom 403 error page (Forbidden)
+
 - [ ] **Comments System**
   - [ ] Comment submission
   - [ ] Comment moderation
