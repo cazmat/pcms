@@ -165,12 +165,6 @@ None currently.
   - [ ] Auto-save drafts
   - [ ] Duplicate post feature
 
-- [ ] **User Features**
-  - [ ] Multiple admin users
-  - [ ] User roles (admin, editor, author)
-  - [ ] User profile management
-  - [ ] Author bio and avatar
-
 ### Documentation & Testing
 
 - [ ] **Documentation**
@@ -281,6 +275,10 @@ None currently reported.
 - Plugin architecture
 - Import/export functionality
 - Markdown support
+- Multiple admin users
+- User roles (admin, editor, author)
+- User profile management
+- Author bio and avatar
 
 ---
 
