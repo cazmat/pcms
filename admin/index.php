@@ -1,8 +1,8 @@
 <?php
   define("ROOT_PATH", "../");
-  
+
   require_once(ROOT_PATH ."includes/init.php");
-  
+
 require_once __DIR__ . '/../includes/functions.php';
 
 // Require authentication
@@ -18,7 +18,22 @@ if (isset($_GET['delete']) && isset($_GET['id'])) {
     }
 }
 
-$posts = getAllPostsAdmin();
+// Pagination setup
+$current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$posts_per_page = $system->get_setting('blog_ppp');
+$total_posts = getTotalPosts();
+
+// Generate pagination data
+$pagination = getPaginationData(
+    $current_page,
+    $total_posts,
+    $posts_per_page,
+    $system->get_setting('base_url') . '/admin/index.php'
+);
+
+// Fetch posts for current page
+$posts = getAllPostsAdmin($posts_per_page, $pagination['offset']);
+
 $message = '';
 
 if (isset($_GET['created'])) {
@@ -32,5 +47,6 @@ if (isset($_GET['created'])) {
 echo $template->render('pages/admin-index.php', [
     'posts' => $posts,
     'message' => $message,
-    'current_user' => $current_user
+    'current_user' => $current_user,
+    'pagination' => $pagination
 ]);

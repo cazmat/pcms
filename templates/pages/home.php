@@ -28,6 +28,8 @@ Home
                 </a>
             </article>
         <?php endforeach; ?>
+
+        @include('pagination.php')
     <?php endif; ?>
 </div>
 @endsection

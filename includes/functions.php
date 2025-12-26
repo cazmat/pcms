@@ -125,6 +125,76 @@ function deletePost($id) {
 }
 
 /**
+ * Get total count of published posts
+ */
+function getTotalPublishedPosts() {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT COUNT(*) as total FROM posts WHERE status = 'published'");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return (int)$row['total'];
+}
+
+/**
+ * Get total count of all posts (for admin)
+ */
+function getTotalPosts() {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT COUNT(*) as total FROM posts");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return (int)$row['total'];
+}
+
+/**
+ * Generate pagination data
+ *
+ * @param int $current_page Current page number (1-indexed)
+ * @param int $total_items Total number of items
+ * @param int $per_page Items per page
+ * @param string $base_url Base URL for pagination links
+ * @return array Pagination data including pages, links, etc.
+ */
+function getPaginationData($current_page, $total_items, $per_page, $base_url = '') {
+    // Calculate total pages
+    $total_pages = max(1, ceil($total_items / $per_page));
+
+    // Ensure current page is within valid range
+    $current_page = max(1, min($current_page, $total_pages));
+
+    // Calculate offset for database query
+    $offset = ($current_page - 1) * $per_page;
+
+    // Determine which page numbers to show
+    $page_range = 2; // Show 2 pages before and after current page
+    $start_page = max(1, $current_page - $page_range);
+    $end_page = min($total_pages, $current_page + $page_range);
+
+    return [
+        'current_page' => $current_page,
+        'total_pages' => $total_pages,
+        'total_items' => $total_items,
+        'per_page' => $per_page,
+        'offset' => $offset,
+        'has_prev' => $current_page > 1,
+        'has_next' => $current_page < $total_pages,
+        'prev_page' => $current_page - 1,
+        'next_page' => $current_page + 1,
+        'start_page' => $start_page,
+        'end_page' => $end_page,
+        'base_url' => $base_url,
+        'show_first' => $start_page > 1,
+        'show_last' => $end_page < $total_pages
+    ];
+}
+
+/**
  * Generate a URL-friendly slug from a string
  */
 function generateSlug($string) {

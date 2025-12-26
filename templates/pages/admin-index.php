@@ -56,6 +56,8 @@ Manage Posts
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        @include('pagination.php')
     <?php endif; ?>
 </div>
 @endsection

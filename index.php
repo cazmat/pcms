@@ -10,8 +10,23 @@ if ($system->get_setting('maintenance') && !isLoggedIn()) {
     exit;
 }
 
-$posts = getAllPosts();
+// Pagination setup
+$current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$posts_per_page = $system->get_setting('blog_ppp');
+$total_posts = getTotalPublishedPosts();
+
+// Generate pagination data
+$pagination = getPaginationData(
+    $current_page,
+    $total_posts,
+    $posts_per_page,
+    $system->get_setting('base_url') . '/index.php'
+);
+
+// Fetch posts for current page
+$posts = getAllPosts($posts_per_page, $pagination['offset']);
 
 echo $template->render('pages/home.php', [
-    'posts' => $posts
+    'posts' => $posts,
+    'pagination' => $pagination
 ]);
