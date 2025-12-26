@@ -9,16 +9,19 @@ function getAllPosts($limit = null, $offset = 0) {
     $sql = "SELECT * FROM posts WHERE status = 'published' ORDER BY created_at DESC";
 
     if ($limit !== null) {
-        $sql .= " LIMIT :limit OFFSET :offset";
+        $sql .= " LIMIT ? OFFSET ?";
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->bind_param('ii', $limit, $offset);
     } else {
         $stmt = $db->prepare($sql);
     }
 
     $stmt->execute();
-    return $stmt->fetchAll();
+    $result = $stmt->get_result();
+    $posts = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $posts;
 }
 
 /**
@@ -29,16 +32,19 @@ function getAllPostsAdmin($limit = null, $offset = 0) {
     $sql = "SELECT * FROM posts ORDER BY created_at DESC";
 
     if ($limit !== null) {
-        $sql .= " LIMIT :limit OFFSET :offset";
+        $sql .= " LIMIT ? OFFSET ?";
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->bind_param('ii', $limit, $offset);
     } else {
         $stmt = $db->prepare($sql);
     }
 
     $stmt->execute();
-    return $stmt->fetchAll();
+    $result = $stmt->get_result();
+    $posts = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $posts;
 }
 
 /**
@@ -46,9 +52,14 @@ function getAllPostsAdmin($limit = null, $offset = 0) {
  */
 function getPostBySlug($slug) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM posts WHERE slug = :slug AND status = 'published' LIMIT 1");
-    $stmt->execute([':slug' => $slug]);
-    return $stmt->fetch();
+    $stmt = $db->prepare("SELECT * FROM posts WHERE slug = ? AND status = 'published' LIMIT 1");
+    $stmt->bind_param('s', $slug);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $post = $result->fetch_assoc();
+    $stmt->close();
+
+    return $post;
 }
 
 /**
@@ -56,9 +67,14 @@ function getPostBySlug($slug) {
  */
 function getPostById($id) {
     $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM posts WHERE id = :id LIMIT 1");
-    $stmt->execute([':id' => $id]);
-    return $stmt->fetch();
+    $stmt = $db->prepare("SELECT * FROM posts WHERE id = ? LIMIT 1");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $post = $result->fetch_assoc();
+    $stmt->close();
+
+    return $post;
 }
 
 /**
@@ -68,17 +84,13 @@ function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft
     $db = getDB();
     $stmt = $db->prepare("
         INSERT INTO posts (title, slug, content, excerpt, author, status)
-        VALUES (:title, :slug, :content, :excerpt, :author, :status)
+        VALUES (?, ?, ?, ?, ?, ?)
     ");
+    $stmt->bind_param('ssssss', $title, $slug, $content, $excerpt, $author, $status);
+    $result = $stmt->execute();
+    $stmt->close();
 
-    return $stmt->execute([
-        ':title' => $title,
-        ':slug' => $slug,
-        ':content' => $content,
-        ':excerpt' => $excerpt,
-        ':author' => $author,
-        ':status' => $status
-    ]);
+    return $result;
 }
 
 /**
@@ -88,20 +100,15 @@ function updatePost($id, $title, $slug, $content, $excerpt, $author, $status) {
     $db = getDB();
     $stmt = $db->prepare("
         UPDATE posts
-        SET title = :title, slug = :slug, content = :content,
-            excerpt = :excerpt, author = :author, status = :status
-        WHERE id = :id
+        SET title = ?, slug = ?, content = ?,
+            excerpt = ?, author = ?, status = ?
+        WHERE id = ?
     ");
+    $stmt->bind_param('ssssssi', $title, $slug, $content, $excerpt, $author, $status, $id);
+    $result = $stmt->execute();
+    $stmt->close();
 
-    return $stmt->execute([
-        ':id' => $id,
-        ':title' => $title,
-        ':slug' => $slug,
-        ':content' => $content,
-        ':excerpt' => $excerpt,
-        ':author' => $author,
-        ':status' => $status
-    ]);
+    return $result;
 }
 
 /**
@@ -109,8 +116,12 @@ function updatePost($id, $title, $slug, $content, $excerpt, $author, $status) {
  */
 function deletePost($id) {
     $db = getDB();
-    $stmt = $db->prepare("DELETE FROM posts WHERE id = :id");
-    return $stmt->execute([':id' => $id]);
+    $stmt = $db->prepare("DELETE FROM posts WHERE id = ?");
+    $stmt->bind_param('i', $id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
 }
 
 /**

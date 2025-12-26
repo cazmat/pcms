@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+// Enable MySQLi exception mode
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 // Global database connection
 $db = null;
 
@@ -12,17 +15,9 @@ function getDB() {
 
     if ($db === null) {
         try {
-            $db = new PDO(
-                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-                DB_USER,
-                DB_PASS,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false
-                ]
-            );
-        } catch (PDOException $e) {
+            $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            $db->set_charset('utf8mb4');
+        } catch (mysqli_sql_exception $e) {
             die("Database connection failed: " . $e->getMessage());
         }
     }
@@ -35,5 +30,8 @@ function getDB() {
  */
 function closeDB() {
     global $db;
-    $db = null;
+    if ($db !== null) {
+        $db->close();
+        $db = null;
+    }
 }
