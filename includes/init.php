@@ -9,6 +9,6 @@
   
   require_once(ROOT_PATH ."includes/class.system.php");
   require_once(ROOT_PATH ."includes/class.template.php");
-  
+
   $system = new System();
-  $template = new Template();
+  $template = new Template($system);

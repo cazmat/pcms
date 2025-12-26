@@ -46,6 +46,14 @@
 - [x] Custom 500 error page
 - [x] Proper HTTP status codes
 
+### Template System
+- [x] Custom template engine with hybrid PHP/{{ }} syntax
+- [x] Layout inheritance system (@extends, @yield, @section)
+- [x] Partial includes (@include)
+- [x] MVC pattern separation (logic in controllers, presentation in templates)
+- [x] Template class with $system integration
+- [x] Converted all frontend and admin pages to use templates
+
 ## 🔧 In Progress
 
 None currently.
@@ -88,12 +96,12 @@ None currently.
   - [ ] Maintenance mode implementation (blocks visitors, allows admin)
   - [ ] Timezone and date format dropdowns
 
-- [ ] **Template System**
-  - [ ] Separate presentation from logic (MVC pattern)
-  - [ ] Template engine (Twig, Blade, or custom)
-  - [ ] Layout and partial system
+- [x] **Template System**
+  - [x] Separate presentation from logic (MVC pattern)
+  - [x] Template engine (custom with hybrid PHP/{{ }} syntax)
+  - [x] Layout and partial system (@extends, @section, @yield, @include)
   - [ ] Template caching for performance
-  - [ ] Theme support foundation
+  - [x] Theme support foundation
 
 - [ ] **Rich Text Editor**
   - [ ] Integrate WYSIWYG editor (TinyMCE/CKEditor)
