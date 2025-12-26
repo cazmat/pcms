@@ -220,15 +220,18 @@ Click the "Log Out" link in the admin panel navigation.
 - ✅ **SQL injection prevention** - Using MySQLi prepared statements
 - ✅ **XSS prevention** - HTML escaping for all user output
 - ✅ **Input validation** - Server-side validation for all forms
+- ✅ **Security headers** - X-Frame-Options, X-Content-Type-Options, X-XSS-Protection
+- ✅ **Directory protection** - Blocks access to sensitive directories (.git, includes, sql)
+- ✅ **Error handling** - Custom error pages without information disclosure
 
 ### For Production Use, Consider Adding
 
 - [ ] CSRF protection for forms
 - [ ] HTTPS enforcement
-- [ ] Security headers (X-Frame-Options, CSP, X-Content-Type-Options)
+- [ ] Content Security Policy (CSP) header
 - [ ] File upload validation (if adding images)
-- [ ] Content Security Policy
-- [ ] Regular security audits
+- [ ] Security audit and penetration testing
+- [ ] Regular security updates
 
 ## Customization
 
@@ -248,6 +251,83 @@ Edit `css/style.css` to customize colors, fonts, and layout.
 Edit `includes/config.php`:
 ```php
 define('POSTS_PER_PAGE', 10);
+```
+
+## Clean URLs (Pretty URLs)
+
+The blog system includes support for clean, SEO-friendly URLs.
+
+### URL Structure
+
+**Public URLs:**
+- Homepage: `/` (instead of `/index.php`)
+- Single Post: `/post/slug-name` (instead of `/post.php?slug=slug-name`)
+
+**Admin URLs:**
+- Admin Dashboard: `/admin` (instead of `/admin/index.php`)
+- Login: `/admin/login` (instead of `/admin/login.php`)
+- Logout: `/admin/logout` (instead of `/admin/logout.php`)
+- Create Post: `/admin/edit` (instead of `/admin/edit.php`)
+- Edit Post: `/admin/edit/123` (instead of `/admin/edit.php?id=123`)
+
+### Apache Setup
+
+The `.htaccess` file is included and enabled by default. It provides:
+- Clean URLs with `.php` extension removal
+- Blog post URL rewriting (`/post/slug-name`)
+- Admin URL rewriting
+- Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
+- GZIP compression
+- Browser caching
+- Protection for sensitive directories
+
+**Requirements:**
+- Apache with `mod_rewrite` enabled
+- `AllowOverride All` in your Apache configuration
+
+**Enable mod_rewrite (if needed):**
+```bash
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+```
+
+### Nginx Setup
+
+An example Nginx configuration is provided in `nginx.conf.example`.
+
+**To use it:**
+1. Copy to Nginx sites directory:
+   ```bash
+   sudo cp nginx.conf.example /etc/nginx/sites-available/blog
+   ```
+2. Edit the file and update:
+   - `server_name` with your domain
+   - `root` with your installation path
+   - PHP-FPM socket path if needed
+3. Enable the site:
+   ```bash
+   sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+### Blocking setup.php After Installation
+
+For security, block access to `setup.php` after completing installation:
+
+**Apache (.htaccess):**
+Uncomment this line in `.htaccess`:
+```apache
+# RewriteRule ^setup\.php$ - [F,L]
+```
+
+**Nginx:**
+Uncomment this block in your Nginx config:
+```nginx
+# location = /setup.php {
+#     deny all;
+#     return 404;
+# }
 ```
 
 ## Sample Data

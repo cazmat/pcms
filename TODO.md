@@ -29,6 +29,22 @@
 - [x] Rate limiting for login attempts (5 per 15 min per IP)
 - [x] Login page with responsive design
 - [x] Automatic cleanup of expired tokens and old login attempts
+- [x] Interactive setup.php script (no hardcoded credentials)
+
+### Clean URLs & Performance
+- [x] Apache .htaccess file with mod_rewrite
+- [x] Nginx configuration example
+- [x] URL rewriting rules for clean URLs
+- [x] Remove .php extensions from URLs
+- [x] SEO-friendly blog post URLs (/post/slug-name)
+- [x] Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
+- [x] GZIP compression
+- [x] Browser caching rules
+
+### Error Handling
+- [x] Custom 404 error page
+- [x] Custom 500 error page
+- [x] Proper HTTP status codes
 
 ## 🔧 In Progress
 
@@ -48,7 +64,7 @@ None currently.
   - [ ] Additional XSS prevention measures
   - [ ] Enhanced input validation
   - [ ] SQL injection testing
-  - [ ] Security headers (X-Frame-Options, CSP, etc.)
+  - [ ] Content Security Policy (CSP) header
 
 ### High Priority - Core Features
 
@@ -57,17 +73,9 @@ None currently.
   - [ ] Admin panel pagination
   - [ ] Configurable posts per page
 
-- [ ] **Clean URLs**
-  - [ ] Apache .htaccess file
-  - [ ] Nginx configuration example
-  - [ ] URL rewriting rules
-  - [ ] Remove .php extensions from URLs
-
-- [ ] **Error Handling**
-  - [ ] Custom 404 error page
-  - [ ] Custom 500 error page
-  - [ ] Error logging system
-  - [ ] User-friendly error messages
+- [ ] **Error Logging**
+  - [ ] Server-side error logging system
+  - [ ] Error log viewer in admin panel
 
 ### Medium Priority - User Experience
 
