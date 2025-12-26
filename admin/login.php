@@ -130,13 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="../index.php">&larr; Back to Blog</a>
             </div>
         </div>
-
-        <div class="login-info">
-            <p><strong>Default Credentials:</strong></p>
-            <p>Username: <code>admin</code></p>
-            <p>Password: <code>admin123</code></p>
-            <p class="warning">⚠️ Change these credentials immediately after first login!</p>
-        </div>
     </div>
 </body>
 </html>

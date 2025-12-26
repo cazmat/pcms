@@ -49,22 +49,9 @@ git clone <repository-url> pcms
 cd pcms
 ```
 
-### 2. Set Up the Database
+### 2. Configure Database Connection
 
-Option A: Using MySQL command line:
-```bash
-mysql -u root -p < sql/setup.sql
-```
-
-Option B: Using phpMyAdmin:
-1. Open phpMyAdmin
-2. Click "Import"
-3. Select `sql/setup.sql`
-4. Click "Go"
-
-### 3. Configure Database Connection
-
-Edit `includes/config.php` and update these values if needed:
+Edit `includes/config.php` and update these values for your environment:
 
 ```php
 define('DB_HOST', 'localhost');     // Your database host
@@ -73,7 +60,9 @@ define('DB_PASS', '');              // Your database password
 define('DB_NAME', 'blog_system');   // Database name
 ```
 
-### 4. Start the Web Server
+**Note**: Make sure your MySQL/MariaDB server is running and the user has permissions to create databases.
+
+### 3. Start the Web Server
 
 Option A: Using PHP built-in server (for development):
 ```bash
@@ -84,21 +73,36 @@ Option B: Using Apache/Nginx:
 - Point your virtual host document root to the project root directory
 - Ensure `.htaccess` is supported (Apache) or configure URL rewriting (Nginx)
 
+### 4. Run the Setup Script
+
+1. Navigate to http://localhost:8000/setup.php in your browser
+2. Review the database configuration
+3. Create your admin account:
+   - Enter a username (at least 3 characters)
+   - Optionally enter an email address
+   - Create a secure password (at least 6 characters)
+   - Confirm your password
+4. Click "Create Admin Account & Set Up Database"
+
+The setup script will:
+- Create the database and all required tables
+- Create your admin account with secure password hashing
+- Insert 3 sample blog posts
+
 ### 5. Access the Blog
 
-- **Homepage**: http://localhost:8000/ (or your configured domain)
-- **Admin Panel**: http://localhost:8000/admin/index.php
+- **Homepage**: http://localhost:8000/
+- **Admin Login**: http://localhost:8000/admin/login.php
+
+**Security Note**: After successful setup, consider deleting or restricting access to `setup.php` to prevent unauthorized access.
 
 ## Authentication
 
 The admin panel is protected by a secure authentication system.
 
-### Default Login Credentials
+### Login Credentials
 
-- **Username**: `admin`
-- **Password**: `admin123`
-
-**⚠️ IMPORTANT**: Change these credentials immediately after your first login!
+Your admin credentials are set during the initial setup process when you run `setup.php`. Use the username and password you created to log in to the admin panel.
 
 ### Features
 

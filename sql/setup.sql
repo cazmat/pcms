@@ -72,9 +72,5 @@ INSERT INTO posts (title, slug, content, excerpt, author, status) VALUES
 'Learn how to build a complete blog system using PHP and MySQL from scratch.',
 'Admin', 'draft');
 
--- Insert default admin user
--- Username: admin
--- Password: admin123 (CHANGE THIS IMMEDIATELY AFTER FIRST LOGIN!)
--- Password hash generated with: password_hash('admin123', PASSWORD_BCRYPT)
-INSERT INTO users (username, password, email) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@example.com');
+-- NOTE: Admin user creation has been moved to setup.php
+-- Run setup.php in your browser to create your admin account and complete the setup
