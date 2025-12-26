@@ -62,11 +62,6 @@ None currently.
 
 ### High Priority - Security & Authentication
 
-- [ ] **Password Reset Functionality**
-  - [ ] Email-based password reset
-  - [ ] Reset token generation and validation
-  - [ ] Password reset form
-
 - [ ] **Security Hardening**
   - [ ] CSRF token protection for forms
   - [ ] Additional XSS prevention measures
@@ -244,7 +239,6 @@ None currently.
 - SEO meta tags and improvements
 
 ### v1.0 - Production Ready
-- Password reset functionality
 - All security features implemented
 - Comprehensive testing completed
 - Performance optimized
@@ -268,6 +262,7 @@ None currently reported.
 - Multi-language support
 - RSS feed generation
 - Email notifications
+- Password reset functionality (email-based with tokens)
 - Social media integration
 - REST API
 - GraphQL API
