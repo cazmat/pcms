@@ -79,6 +79,15 @@ None currently.
 
 ### Medium Priority - User Experience
 
+- [ ] **Settings System**
+  - [ ] Create settings.php file for editable settings
+  - [ ] Move SITE_NAME and POSTS_PER_PAGE to settings.php
+  - [ ] Admin settings page with form UI
+  - [ ] Settings: Admin email, timezone, date format, maintenance mode
+  - [ ] Input validation and reset to defaults
+  - [ ] Maintenance mode implementation (blocks visitors, allows admin)
+  - [ ] Timezone and date format dropdowns
+
 - [ ] **Template System**
   - [ ] Separate presentation from logic (MVC pattern)
   - [ ] Template engine (Twig, Blade, or custom)
