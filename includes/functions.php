@@ -566,3 +566,275 @@ function sanitizePlainText($text) {
 function sanitizeInput($input) {
     return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
 }
+
+// ============================================================================
+// Error Logging Functions
+// ============================================================================
+
+/**
+ * Get the current environment (development or production)
+ */
+function getEnvironment() {
+    static $environment = null;
+    
+    if ($environment === null) {
+        // Load .env file
+        $envFile = ROOT_PATH . '.env';
+        if (file_exists($envFile)) {
+            $envContent = parse_ini_file($envFile);
+            $environment = $envContent['APP_ENV'] ?? 'production';
+        } else {
+            $environment = 'production'; // Default to production for safety
+        }
+    }
+    
+    return $environment;
+}
+
+/**
+ * Check if we're in production environment
+ */
+function isProduction() {
+    return getEnvironment() === 'production';
+}
+
+/**
+ * Get the current log file path (with rotation)
+ */
+function getLogFilePath() {
+    $logDir = ROOT_PATH . 'includes/logs/';
+    $logFile = $logDir . 'error.log';
+    
+    // Check if log file needs rotation (5MB = 5242880 bytes)
+    if (file_exists($logFile) && filesize($logFile) > 5242880) {
+        // Rotate: rename current log to error.log.1, error.log.1 to error.log.2, etc.
+        $timestamp = date('Y-m-d_H-i-s');
+        $rotatedFile = $logDir . 'error_' . $timestamp . '.log';
+        rename($logFile, $rotatedFile);
+    }
+    
+    return $logFile;
+}
+
+/**
+ * Write a log entry
+ */
+function logError($level, $message, $context = []) {
+    $logFile = getLogFilePath();
+    
+    // Build log entry
+    $timestamp = date('Y-m-d H:i:s');
+    $logEntry = [
+        'timestamp' => $timestamp,
+        'level' => strtoupper($level),
+        'message' => $message
+    ];
+    
+    // Add context information
+    if (!empty($context)) {
+        if (isset($context['file'])) $logEntry['file'] = $context['file'];
+        if (isset($context['line'])) $logEntry['line'] = $context['line'];
+        if (isset($context['trace'])) $logEntry['trace'] = $context['trace'];
+    }
+    
+    // Add request information
+    if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['user_id'])) {
+        $logEntry['user_id'] = $_SESSION['user_id'];
+    }
+    
+    if (isset($_SERVER['REMOTE_ADDR'])) {
+        $logEntry['ip'] = getClientIP();
+    }
+    
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $logEntry['url'] = $_SERVER['REQUEST_URI'];
+    }
+    
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        $logEntry['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+    }
+    
+    // Format as JSON for easier parsing
+    $formattedEntry = json_encode($logEntry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . PHP_EOL;
+    
+    // Write to log file
+    file_put_contents($logFile, $formattedEntry, FILE_APPEND | LOCK_EX);
+}
+
+/**
+ * Log levels
+ */
+function logCritical($message, $context = []) {
+    logError('CRITICAL', $message, $context);
+}
+
+function logErrorMessage($message, $context = []) {
+    logError('ERROR', $message, $context);
+}
+
+function logWarning($message, $context = []) {
+    logError('WARNING', $message, $context);
+}
+
+function logInfo($message, $context = []) {
+    logError('INFO', $message, $context);
+}
+
+function logDebug($message, $context = []) {
+    // Only log debug messages in development
+    if (!isProduction()) {
+        logError('DEBUG', $message, $context);
+    }
+}
+
+/**
+ * Clean up old log files (older than 30 days)
+ */
+function cleanupOldLogs() {
+    $logDir = ROOT_PATH . 'includes/logs/';
+    $cutoffTime = time() - (30 * 24 * 60 * 60); // 30 days ago
+    
+    if (!is_dir($logDir)) {
+        return;
+    }
+    
+    $files = glob($logDir . 'error_*.log');
+    foreach ($files as $file) {
+        if (filemtime($file) < $cutoffTime) {
+            unlink($file);
+        }
+    }
+}
+
+/**
+ * Get all log files (sorted by modification time, newest first)
+ */
+function getLogFiles() {
+    $logDir = ROOT_PATH . 'includes/logs/';
+    $files = glob($logDir . '*.log');
+    
+    if (empty($files)) {
+        return [];
+    }
+    
+    // Sort by modification time, newest first
+    usort($files, function($a, $b) {
+        return filemtime($b) - filemtime($a);
+    });
+    
+    return $files;
+}
+
+/**
+ * Read log file contents (latest entries first)
+ */
+function readLogFile($filename = null) {
+    if ($filename === null) {
+        $filename = getLogFilePath();
+    }
+    
+    if (!file_exists($filename)) {
+        return '';
+    }
+    
+    $contents = file_get_contents($filename);
+    
+    // Reverse the order so newest entries are at the top
+    $lines = explode(PHP_EOL, trim($contents));
+    $lines = array_reverse($lines);
+    
+    return implode(PHP_EOL, $lines);
+}
+
+/**
+ * Custom error handler for PHP errors
+ */
+function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    // Don't log errors suppressed with @
+    if (!(error_reporting() & $errno)) {
+        return false;
+    }
+    
+    $errorType = 'ERROR';
+    switch ($errno) {
+        case E_ERROR:
+        case E_USER_ERROR:
+        case E_COMPILE_ERROR:
+        case E_CORE_ERROR:
+            $errorType = 'CRITICAL';
+            break;
+        case E_WARNING:
+        case E_USER_WARNING:
+        case E_COMPILE_WARNING:
+        case E_CORE_WARNING:
+            $errorType = 'WARNING';
+            break;
+        case E_NOTICE:
+        case E_USER_NOTICE:
+            $errorType = 'INFO';
+            break;
+    }
+    
+    logError($errorType, $errstr, [
+        'file' => $errfile,
+        'line' => $errline,
+        'errno' => $errno
+    ]);
+    
+    // In production, don't show errors to users
+    if (isProduction()) {
+        return true; // Prevent PHP from displaying the error
+    }
+    
+    return false; // Let PHP display the error in development
+}
+
+/**
+ * Custom exception handler
+ */
+function customExceptionHandler($exception) {
+    logCritical($exception->getMessage(), [
+        'file' => $exception->getFile(),
+        'line' => $exception->getLine(),
+        'trace' => $exception->getTraceAsString()
+    ]);
+    
+    // In production, show generic error page
+    if (isProduction()) {
+        http_response_code(500);
+        require_once ROOT_PATH . '500.php';
+        exit;
+    } else {
+        // In development, let PHP display the exception
+        throw $exception;
+    }
+}
+
+/**
+ * Initialize error logging
+ */
+function initErrorLogging() {
+    // Set error handler
+    set_error_handler('customErrorHandler');
+    
+    // Set exception handler
+    set_exception_handler('customExceptionHandler');
+    
+    // Configure error reporting based on environment
+    if (isProduction()) {
+        // Production: log errors, don't display them
+        ini_set('display_errors', '0');
+        ini_set('display_startup_errors', '0');
+        error_reporting(E_ALL);
+    } else {
+        // Development: log and display errors
+        ini_set('display_errors', '1');
+        ini_set('display_startup_errors', '1');
+        error_reporting(E_ALL);
+    }
+    
+    // Clean up old logs periodically (1% chance on each request)
+    if (rand(1, 100) === 1) {
+        cleanupOldLogs();
+    }
+}

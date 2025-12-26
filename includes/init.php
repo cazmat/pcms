@@ -7,8 +7,12 @@
     exit;
   }
   
+  require_once(ROOT_PATH ."includes/functions.php");
   require_once(ROOT_PATH ."includes/class.system.php");
   require_once(ROOT_PATH ."includes/class.template.php");
+
+  // Initialize error logging
+  initErrorLogging();
 
   $system = new System();
   $template = new Template($system);

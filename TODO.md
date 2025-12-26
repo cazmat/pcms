@@ -62,6 +62,15 @@
 - [x] Content Security Policy header implementation
 - [x] Security documentation (SECURITY.md)
 
+### Error Logging
+- [x] File-based error logging system (JSON format)
+- [x] Log rotation (5MB file size limit)
+- [x] Environment-based error handling (development/production)
+- [x] Custom PHP error and exception handlers
+- [x] Admin log viewer with file selection
+- [x] Automatic cleanup of old logs (30-day retention)
+- [x] Log levels: CRITICAL, ERROR, WARNING, INFO, DEBUG
+
 ## 🔧 In Progress
 
 None currently.
@@ -84,9 +93,12 @@ None currently.
   - [ ] Admin panel pagination
   - [ ] Configurable posts per page
 
-- [ ] **Error Logging**
-  - [ ] Server-side error logging system
-  - [ ] Error log viewer in admin panel
+- [x] **Error Logging**
+  - [x] Server-side error logging system (file-based with rotation)
+  - [x] Error log viewer in admin panel
+  - [x] Environment-based error handling (.env file)
+  - [x] Custom PHP error and exception handlers
+  - [x] Automatic log cleanup (30-day retention)
 
 ### Medium Priority - User Experience
 
