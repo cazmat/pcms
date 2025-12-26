@@ -165,12 +165,6 @@ None currently.
   - [ ] Auto-save drafts
   - [ ] Duplicate post feature
 
-- [ ] **User Features**
-  - [ ] Multiple admin users
-  - [ ] User roles (admin, editor, author)
-  - [ ] User profile management
-  - [ ] Author bio and avatar
-
 ### Documentation & Testing
 
 - [ ] **Documentation**
@@ -215,7 +209,7 @@ None currently.
 - MySQLi database layer
 - Sample data and setup
 
-### v0.2 (Current) - Authentication & Clean URLs ✅
+### v0.2 - Authentication & Clean URLs ✅
 - Complete authentication system with login/logout
 - "Remember Me" functionality with secure tokens
 - Rate limiting for login attempts
@@ -225,6 +219,14 @@ None currently.
 - Custom error pages (404, 500)
 - Security headers implementation
 - Browser caching and GZIP compression
+
+### v0.3 (Current) - Template System ✅
+- Custom template engine with hybrid PHP/{{ }} syntax
+- Layout inheritance system (@extends, @yield, @section)
+- Partial includes (@include)
+- MVC pattern separation of concerns
+- Template class with automatic data passing
+- Converted all pages to use template system
 
 ### v0.5 - Security Hardening
 - CSRF protection for forms
@@ -273,9 +275,13 @@ None currently reported.
 - Plugin architecture
 - Import/export functionality
 - Markdown support
+- Multiple admin users
+- User roles (admin, editor, author)
+- User profile management
+- Author bio and avatar
 
 ---
 
 Last Updated: 2025-12-26
-Current Version: 0.2
+Current Version: 0.3
 Target Release: v1.0
