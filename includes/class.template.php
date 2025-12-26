@@ -5,6 +5,7 @@ class Template {
     private $layout = null;
     private $sections = [];
     private $current_section = null;
+    private $data = [];
 
     public function __construct($system) {
         $this->system = $system;
@@ -20,6 +21,9 @@ class Template {
         if (!file_exists($template_path)) {
             throw new Exception("Template not found: {$template}");
         }
+
+        // Store data for use in partials
+        $this->data = $data;
 
         // Extract data array into variables
         extract($data);
@@ -45,6 +49,10 @@ class Template {
                 throw new Exception("Layout not found: {$layout_path}");
             }
 
+            // Extract data for layout too
+            extract($this->data);
+            $system = $this->system;
+
             ob_start();
             $parsed_layout = $this->parse(file_get_contents($layout_path));
             eval('?>' . $parsed_layout);
@@ -64,8 +72,11 @@ class Template {
             throw new Exception("Partial not found: {$partial}");
         }
 
+        // Merge passed data with stored data (passed data takes priority)
+        $merged_data = array_merge($this->data, $data);
+
         // Extract data array into variables
-        extract($data);
+        extract($merged_data);
 
         // Make $system available in partials
         $system = $this->system;
