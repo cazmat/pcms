@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/../includes/functions.php';
 
+// Require authentication
+requireAuth();
+
+$current_user = getCurrentUser();
+
 $errors = [];
 $post = null;
 $isEdit = false;
@@ -96,6 +101,9 @@ $formData = [
             <nav>
                 <a href="../index.php">View Blog</a>
                 <a href="index.php">Manage Posts</a>
+                <span class="nav-divider">|</span>
+                <span class="nav-user">Logged in as: <strong><?php echo e($current_user['username']); ?></strong></span>
+                <a href="logout.php" class="btn-logout">Log Out</a>
             </nav>
         </div>
     </header>

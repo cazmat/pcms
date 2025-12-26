@@ -89,6 +89,45 @@ Option B: Using Apache/Nginx:
 - **Homepage**: http://localhost:8000/ (or your configured domain)
 - **Admin Panel**: http://localhost:8000/admin/index.php
 
+## Authentication
+
+The admin panel is protected by a secure authentication system.
+
+### Default Login Credentials
+
+- **Username**: `admin`
+- **Password**: `admin123`
+
+**⚠️ IMPORTANT**: Change these credentials immediately after your first login!
+
+### Features
+
+- **Secure Password Hashing**: Passwords are hashed using bcrypt
+- **Session Management**: Secure PHP sessions with regeneration
+- **Remember Me**: Optional 30-day persistent login via secure tokens
+- **Rate Limiting**: Maximum 5 login attempts per 15 minutes per IP address
+- **Auto-cleanup**: Expired tokens and old login attempts are automatically cleaned
+
+### Logging In
+
+1. Navigate to http://localhost:8000/admin/index.php
+2. You'll be redirected to the login page
+3. Enter your username and password
+4. Optionally check "Remember me for 30 days" for persistent login
+5. Click "Log In"
+
+### Logging Out
+
+Click the "Log Out" link in the admin panel navigation.
+
+### Security Notes
+
+- All admin pages require authentication
+- Sessions are regenerated on login to prevent session fixation
+- Remember tokens are stored securely in the database
+- Login attempts are rate-limited to prevent brute force attacks
+- All passwords are hashed with bcrypt (cost factor 10)
+
 ## Usage
 
 ### Viewing Posts
@@ -122,6 +161,17 @@ Option B: Using Apache/Nginx:
 
 ## Database Schema
 
+### Users Table
+
+| Column     | Type          | Description                          |
+|------------|---------------|--------------------------------------|
+| id         | INT           | Primary key (auto-increment)         |
+| username   | VARCHAR(50)   | Unique username                      |
+| password   | VARCHAR(255)  | Bcrypt hashed password               |
+| email      | VARCHAR(255)  | Email address                        |
+| created_at | TIMESTAMP     | Account creation date                |
+| updated_at | TIMESTAMP     | Last update date                     |
+
 ### Posts Table
 
 | Column     | Type          | Description                          |
@@ -136,18 +186,45 @@ Option B: Using Apache/Nginx:
 | created_at | TIMESTAMP     | Post creation date                   |
 | updated_at | TIMESTAMP     | Last update date                     |
 
+### Remember Tokens Table
+
+| Column     | Type          | Description                          |
+|------------|---------------|--------------------------------------|
+| id         | INT           | Primary key (auto-increment)         |
+| user_id    | INT           | Foreign key to users table           |
+| token      | VARCHAR(64)   | Unique remember token                |
+| expires_at | TIMESTAMP     | Token expiration time                |
+| created_at | TIMESTAMP     | Token creation date                  |
+
+### Login Attempts Table
+
+| Column       | Type          | Description                          |
+|--------------|---------------|--------------------------------------|
+| id           | INT           | Primary key (auto-increment)         |
+| ip_address   | VARCHAR(45)   | IP address of attempt                |
+| username     | VARCHAR(50)   | Attempted username                   |
+| attempted_at | TIMESTAMP     | Time of attempt                      |
+
 ## Security Considerations
 
-This is a basic blog system designed for learning purposes. For production use, consider adding:
+### Implemented Security Features
 
-- ✅ User authentication system
-- ✅ Input validation and sanitization (partially implemented)
-- ✅ CSRF protection
-- ✅ XSS prevention (basic escaping included)
-- ✅ SQL injection prevention (using PDO prepared statements)
-- ✅ Password protection for admin panel
-- ✅ HTTPS enforcement
-- ✅ File upload validation (if adding images)
+- ✅ **User authentication system** - Bcrypt password hashing, secure sessions
+- ✅ **Password protection for admin panel** - All admin pages require login
+- ✅ **Rate limiting** - 5 login attempts per 15 minutes per IP
+- ✅ **Session security** - Session regeneration on login, secure cookies
+- ✅ **SQL injection prevention** - Using MySQLi prepared statements
+- ✅ **XSS prevention** - HTML escaping for all user output
+- ✅ **Input validation** - Server-side validation for all forms
+
+### For Production Use, Consider Adding
+
+- [ ] CSRF protection for forms
+- [ ] HTTPS enforcement
+- [ ] Security headers (X-Frame-Options, CSP, X-Content-Type-Options)
+- [ ] File upload validation (if adding images)
+- [ ] Content Security Policy
+- [ ] Regular security audits
 
 ## Customization
 

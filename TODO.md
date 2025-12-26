@@ -33,6 +33,8 @@ None currently.
   - [ ] Password hashing (bcrypt/argon2)
   - [ ] Admin user table in database
   - [ ] Protected admin routes
+  - [ ] "Remember Me" functionality with secure tokens
+  - [ ] Password reset functionality (email-based)
 
 - [ ] **Security Hardening**
   - [ ] CSRF token protection for forms
