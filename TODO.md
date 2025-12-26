@@ -19,6 +19,17 @@
 - [x] Helper functions library
 - [x] README with setup instructions
 
+### Authentication & Security
+- [x] User login/logout functionality
+- [x] Session management with regeneration
+- [x] Password hashing with bcrypt
+- [x] Admin user table in database
+- [x] Protected admin routes
+- [x] "Remember Me" functionality with secure tokens
+- [x] Rate limiting for login attempts (5 per 15 min per IP)
+- [x] Login page with responsive design
+- [x] Automatic cleanup of expired tokens and old login attempts
+
 ## 🔧 In Progress
 
 None currently.
@@ -27,20 +38,15 @@ None currently.
 
 ### High Priority - Security & Authentication
 
-- [ ] **Admin Authentication System**
-  - [ ] User login/logout functionality
-  - [ ] Session management
-  - [ ] Password hashing (bcrypt/argon2)
-  - [ ] Admin user table in database
-  - [ ] Protected admin routes
-  - [ ] "Remember Me" functionality with secure tokens
-  - [ ] Password reset functionality (email-based)
+- [ ] **Password Reset Functionality**
+  - [ ] Email-based password reset
+  - [ ] Reset token generation and validation
+  - [ ] Password reset form
 
 - [ ] **Security Hardening**
   - [ ] CSRF token protection for forms
-  - [ ] XSS prevention improvements
-  - [ ] Input validation enhancement
-  - [ ] Rate limiting for login attempts
+  - [ ] Additional XSS prevention measures
+  - [ ] Enhanced input validation
   - [ ] SQL injection testing
   - [ ] Security headers (X-Frame-Options, CSP, etc.)
 
