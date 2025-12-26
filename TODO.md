@@ -90,10 +90,10 @@ None currently.
 - [ ] **Settings System**
   - [x] Create settings.php file for editable settings
   - [x] Move SITE_NAME and POSTS_PER_PAGE to settings.php
+  - [x] Maintenance mode implementation (blocks visitors, allows admin)
   - [ ] Admin settings page with form UI
-  - [ ] Settings: Admin email, timezone, date format, maintenance mode
+  - [ ] Settings: Admin email, timezone, date format, maintenance mode toggle
   - [ ] Input validation and reset to defaults
-  - [ ] Maintenance mode implementation (blocks visitors, allows admin)
   - [ ] Timezone and date format dropdowns
 
 - [x] **Template System**
