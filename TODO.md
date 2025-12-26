@@ -79,6 +79,13 @@ None currently.
 
 ### Medium Priority - User Experience
 
+- [ ] **Template System**
+  - [ ] Separate presentation from logic (MVC pattern)
+  - [ ] Template engine (Twig, Blade, or custom)
+  - [ ] Layout and partial system
+  - [ ] Template caching for performance
+  - [ ] Theme support foundation
+
 - [ ] **Rich Text Editor**
   - [ ] Integrate WYSIWYG editor (TinyMCE/CKEditor)
   - [ ] HTML formatting toolbar
@@ -206,6 +213,7 @@ None currently.
 - Error logging system
 
 ### v0.8 - Enhanced UX
+- Template system with theme support
 - Rich text editor (WYSIWYG)
 - Image upload and management
 - Search functionality
