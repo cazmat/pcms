@@ -85,6 +85,7 @@
 - [x] System class with get/set/save settings methods
 - [x] Admin settings page with form UI
 - [x] All key settings editable: site name, admin email, base URL, posts per page, timezone, date format, maintenance mode, pretty URLs
+- [x] Social media URL settings (GitHub, Twitter/X, LinkedIn, Instagram, Twitch)
 - [x] Current vs default value display for each setting
 - [x] Individual "Reset to Default" buttons per setting
 - [x] "Reset All to Defaults" button with confirmation
@@ -316,7 +317,7 @@ None currently reported.
 - RSS feed generation
 - Email notifications
 - Password reset functionality (email-based with tokens)
-- Social media integration
+- Social media integration (basic URL settings ✅ completed, sharing features pending)
 - REST API
 - GraphQL API
 - Theme system
