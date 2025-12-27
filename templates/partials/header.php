@@ -7,7 +7,7 @@
         </div>
         <nav class="main-nav">
             <a href="{{ $system->get_setting('base_url') }}" class="nav-link">Home</a>
-            <a href="{{ $system->get_setting('base_url') }}/admin/index.php" class="nav-link">Admin</a>
+            <a href="{{ $system->get_setting('base_url') }}/admin" class="nav-link">Admin</a>
         </nav>
     </div>
 </header>
