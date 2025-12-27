@@ -86,9 +86,9 @@
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 
     # Content Security Policy
-    # Note: 'unsafe-inline' is allowed for styles due to inline CSS in error pages
-    # Consider moving inline styles to external CSS for stricter CSP in production
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+    # Note: 'unsafe-inline' is allowed for styles due to inline CSS in error pages and pagination partial
+    # Google Fonts: fonts.googleapis.com for stylesheets, fonts.gstatic.com for font files
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
 </IfModule>
 
 # ============================================================================
