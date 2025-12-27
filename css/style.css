@@ -424,6 +424,9 @@ body {
     text-decoration: none;
     transition: all var(--transition-base);
 }
+.social-link i {
+  font-size: 1.25rem;
+}
 
 .social-link:hover {
     background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
@@ -610,8 +613,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 43px;
+    height: 43px;
     background: var(--color-gray-800);
     border-radius: var(--radius-md);
     color: var(--color-gray-300);

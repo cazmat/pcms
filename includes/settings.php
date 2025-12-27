@@ -2,10 +2,16 @@
   $settings = [
     "admin_email" => "me@mlutz.us",
     "base_url" => "http://localhost",
-    "blog_ppp" => 10, // Blog Posts per Page.
-    "date_format" => "F j, Y", // Date format for display (e.g., "December 27, 2025")
+    "blog_ppp" => 10,
+    "date_format" => "F j, Y",
     "maintenance" => false,
     "pretty_url" => true,
-    "site_name" => "My Blog",
-    "timezone" => "UTC" // Default timezone
+    "site_name" => "Matthew Lutz",
+    "timezone" => "UTC",
+    // socials
+    "social_github" => "",
+    "social_insta" => "",
+    "social_linked" => "",
+    "social_twitch" => "",
+    "social_twitter" => ""
   ];

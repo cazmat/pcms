@@ -5,6 +5,9 @@
       $this->load_settings();
     }
     public function get_setting($key) {
+      if(!array_key_exists($key, $this->settings)) {
+        return null;
+      }
       return $this->settings[$key];
     }
     public function get_all_settings() {
