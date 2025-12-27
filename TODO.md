@@ -80,6 +80,22 @@
 - [x] Previous/Next navigation
 - [x] Responsive pagination controls
 
+### Settings System
+- [x] File-based settings configuration (settings.php)
+- [x] System class with get/set/save settings methods
+- [x] Admin settings page with form UI
+- [x] All key settings editable: site name, admin email, base URL, posts per page, timezone, date format, maintenance mode, pretty URLs
+- [x] Current vs default value display for each setting
+- [x] Individual "Reset to Default" buttons per setting
+- [x] "Reset All to Defaults" button with confirmation
+- [x] Styled toggle switches for boolean settings
+- [x] Timezone dropdown with common timezones
+- [x] Date format dropdown with examples
+- [x] Input validation (email, URL, number range)
+- [x] CSRF protection for settings form
+- [x] Success/error messages after save/reset
+- [x] Responsive design for mobile devices
+
 ## 🔧 In Progress
 
 None currently.
@@ -111,14 +127,14 @@ None currently.
 
 ### Medium Priority - User Experience
 
-- [ ] **Settings System**
+- [x] **Settings System**
   - [x] Create settings.php file for editable settings
   - [x] Move SITE_NAME and POSTS_PER_PAGE to settings.php
   - [x] Maintenance mode implementation (blocks visitors, allows admin)
-  - [ ] Admin settings page with form UI
-  - [ ] Settings: Admin email, timezone, date format, maintenance mode toggle
-  - [ ] Input validation and reset to defaults
-  - [ ] Timezone and date format dropdowns
+  - [x] Admin settings page with form UI
+  - [x] Settings: Admin email, timezone, date format, maintenance mode toggle
+  - [x] Input validation and reset to defaults
+  - [x] Timezone and date format dropdowns
 
 - [x] **Template System**
   - [x] Separate presentation from logic (MVC pattern)
@@ -252,12 +268,20 @@ None currently.
 - Template class with automatic data passing
 - Converted all pages to use template system
 
-### v0.5 (Current) - Security Hardening & Pagination ✅
+### v0.5 - Security Hardening & Pagination ✅
 - CSRF protection for forms
 - Pagination (frontend and admin)
 - Enhanced input validation
 - Content Security Policy (CSP)
 - Error logging system
+
+### v0.6 (Current) - Settings System ✅
+- Complete settings management UI
+- Admin settings page with all editable settings
+- Timezone and date format configuration
+- Toggle switches for boolean settings
+- Individual and bulk reset functionality
+- Input validation and CSRF protection
 
 ### v0.8 - Enhanced UX
 - Template system with theme support
@@ -306,6 +330,6 @@ None currently reported.
 
 ---
 
-Last Updated: 2025-12-26
-Current Version: 0.5
+Last Updated: 2025-12-27
+Current Version: 0.6
 Target Release: v1.0
