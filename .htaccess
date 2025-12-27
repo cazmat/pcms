@@ -65,6 +65,12 @@
     # /admin/edit/123 -> admin/edit.php?id=123
     RewriteRule ^admin/edit/([0-9]+)/?$ admin/edit.php?id=$1 [L,QSA]
 
+    # /admin/settings -> admin/settings.php
+    RewriteRule ^admin/settings/?$ admin/settings.php [L,QSA]
+
+    # /admin/logs -> admin/logs.php
+    RewriteRule ^admin/logs/?$ admin/logs.php [L,QSA]
+
 </IfModule>
 
 # ============================================================================
