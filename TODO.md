@@ -148,6 +148,7 @@ None currently.
   - [x] Database schema (categories, tags, post_tags tables)
   - [x] Helper functions for CRUD operations
   - [x] Update post create/update functions for category support
+  - [ ] Update setup.sql with categories & tags schema
   - [ ] Admin category management pages (list, create, edit, delete)
   - [ ] Admin tag management pages (list, create, edit, delete)
   - [ ] Update post edit page with category dropdown and tag selection
