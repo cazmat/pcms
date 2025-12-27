@@ -145,10 +145,17 @@ None currently.
   - [x] Theme support foundation
 
 - [ ] **Categories & Tags**
-  - [ ] Category system
-  - [ ] Tag system
-  - [ ] Filter posts by category/tag
-  - [ ] Category/tag management UI
+  - [x] Database schema (categories, tags, post_tags tables)
+  - [x] Helper functions for CRUD operations
+  - [x] Update post create/update functions for category support
+  - [ ] Admin category management pages (list, create, edit, delete)
+  - [ ] Admin tag management pages (list, create, edit, delete)
+  - [ ] Update post edit page with category dropdown and tag selection
+  - [ ] Frontend category archive pages
+  - [ ] Frontend tag archive pages
+  - [ ] URL routing rules (.htaccess)
+  - [ ] CSS styling for category/tag UI elements
+  - [ ] Update admin navigation with Categories and Tags links
 
 ### Medium Priority - SEO & Performance
 
