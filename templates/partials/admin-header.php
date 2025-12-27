@@ -5,6 +5,7 @@
             <a href="{{ $system->get_setting('base_url') }}/index.php">View Blog</a>
             <a href="{{ $system->get_setting('base_url') }}/admin/index.php">Manage Posts</a>
             <a href="{{ $system->get_setting('base_url') }}/admin/logs.php">Logs</a>
+            <a href="{{ $system->get_setting('base_url') }}/admin/settings.php">Settings</a>
             <span class="nav-divider">|</span>
             <span class="nav-user">Logged in as: <strong>{{ $current_user['username'] }}</strong></span>
             <a href="{{ $system->get_setting('base_url') }}/admin/logout.php" class="btn-logout">Log Out</a>
