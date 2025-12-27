@@ -260,28 +260,31 @@ None currently.
 - Content Security Policy (CSP)
 - Error logging system
 
-### v0.6 (Current) - Settings System ✅
+### v0.6 - Settings System & Social Media ✅
 - Complete settings management UI
 - Admin settings page with all editable settings
 - Timezone and date format configuration
 - Toggle switches for boolean settings
 - Individual and bulk reset functionality
 - Input validation and CSRF protection
+- Social media URL settings (GitHub, Twitter, LinkedIn, Instagram, Twitch)
 
-### v0.8 - Enhanced UX
-- Template system with theme support
-- Rich text editor (WYSIWYG)
-- Image upload and management
-- Search functionality
-- Categories & tags
-- SEO meta tags and improvements
+### v0.8 (Current) - Content Organization & SEO
+- Categories & tags system
+- Category/tag management UI
+- Filter posts by category/tag
+- SEO improvements (meta tags, Open Graph, Twitter Cards)
+- XML sitemap generation
+- Robots.txt file
+- Template caching for performance
 
 ### v1.0 - Production Ready
-- All security features implemented
-- Comprehensive testing completed
-- Performance optimized
-- Production deployment ready
-- Full documentation
+- Performance optimization (database queries, caching, asset minification)
+- Comprehensive documentation (API docs, deployment guide, security best practices)
+- Testing suite (unit tests, integration tests, security testing)
+- Production deployment checklist
+- Database backup and migration scripts
+- Monitoring and error tracking setup
 
 ## 📝 Notes
 
@@ -319,5 +322,5 @@ None currently reported.
 ---
 
 Last Updated: 2025-12-27
-Current Version: 0.6
+Current Version: 0.6 → 0.8 (in progress)
 Target Release: v1.0
