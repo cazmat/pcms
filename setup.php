@@ -49,6 +49,28 @@ $schema = [
         INDEX idx_attempted_at (attempted_at)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
 
+    'categories' => "CREATE TABLE IF NOT EXISTS categories (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL UNIQUE,
+        slug VARCHAR(100) NOT NULL UNIQUE,
+        color VARCHAR(7) DEFAULT '#3B82F6',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_slug (slug),
+        INDEX idx_name (name)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
+    'tags' => "CREATE TABLE IF NOT EXISTS tags (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL UNIQUE,
+        slug VARCHAR(100) NOT NULL UNIQUE,
+        color VARCHAR(7) DEFAULT '#8B5CF6',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_slug (slug),
+        INDEX idx_name (name)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
     'posts' => "CREATE TABLE IF NOT EXISTS posts (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
@@ -56,13 +78,44 @@ $schema = [
         content TEXT NOT NULL,
         excerpt VARCHAR(500),
         author VARCHAR(100) NOT NULL,
+        category_id INT NULL,
         status ENUM('draft', 'published') DEFAULT 'draft',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
         INDEX idx_slug (slug),
         INDEX idx_status (status),
-        INDEX idx_created_at (created_at)
+        INDEX idx_created_at (created_at),
+        INDEX idx_category_id (category_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
+    'post_tags' => "CREATE TABLE IF NOT EXISTS post_tags (
+        post_id INT NOT NULL,
+        tag_id INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (post_id, tag_id),
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+        FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+        INDEX idx_post_id (post_id),
+        INDEX idx_tag_id (tag_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
+];
+
+// Sample categories data
+$sampleCategories = [
+    ['name' => 'Uncategorized', 'slug' => 'uncategorized', 'color' => '#6B7280'],
+    ['name' => 'Technology', 'slug' => 'technology', 'color' => '#3B82F6'],
+    ['name' => 'Programming', 'slug' => 'programming', 'color' => '#8B5CF6'],
+    ['name' => 'Tutorials', 'slug' => 'tutorials', 'color' => '#10B981']
+];
+
+// Sample tags data
+$sampleTags = [
+    ['name' => 'PHP', 'slug' => 'php', 'color' => '#8B5CF6'],
+    ['name' => 'MySQL', 'slug' => 'mysql', 'color' => '#F59E0B'],
+    ['name' => 'Web Development', 'slug' => 'web-development', 'color' => '#10B981'],
+    ['name' => 'Tutorial', 'slug' => 'tutorial', 'color' => '#EC4899'],
+    ['name' => 'Beginner', 'slug' => 'beginner', 'color' => '#6366F1']
 ];
 
 // Sample posts data
@@ -73,7 +126,9 @@ $samplePosts = [
         'content' => '<p>Welcome to my new blog! This is my first post and I\'m excited to share my thoughts with you.</p><p>This blog is built using PHP and MySQL, providing a simple but effective platform for sharing content.</p><p>Stay tuned for more posts!</p>',
         'excerpt' => 'Welcome to my new blog! This is my first post and I\'m excited to share my thoughts with you.',
         'author' => 'Admin',
-        'status' => 'published'
+        'category_slug' => 'uncategorized',
+        'status' => 'published',
+        'tags' => ['web-development', 'beginner']
     ],
     [
         'title' => 'Getting Started with PHP',
@@ -81,7 +136,9 @@ $samplePosts = [
         'content' => '<p>PHP is a popular server-side scripting language that powers millions of websites worldwide.</p><p>In this post, we\'ll explore the basics of PHP and why it\'s a great choice for web development.</p><p>PHP is easy to learn, widely supported, and integrates seamlessly with databases like MySQL.</p>',
         'excerpt' => 'Learn the basics of PHP and discover why it\'s such a popular choice for web development.',
         'author' => 'Admin',
-        'status' => 'published'
+        'category_slug' => 'programming',
+        'status' => 'published',
+        'tags' => ['php', 'tutorial', 'beginner']
     ],
     [
         'title' => 'Building a Blog with PHP',
@@ -89,7 +146,9 @@ $samplePosts = [
         'content' => '<p>Creating a blog system is a great way to learn PHP and database integration.</p><p>In this tutorial series, we\'ll build a complete blog from scratch, including features like:</p><ul><li>Post creation and editing</li><li>Database integration</li><li>Clean URL slugs</li><li>Responsive design</li></ul>',
         'excerpt' => 'Learn how to build a complete blog system using PHP and MySQL from scratch.',
         'author' => 'Admin',
-        'status' => 'draft'
+        'category_slug' => 'tutorials',
+        'status' => 'draft',
+        'tags' => ['php', 'mysql', 'tutorial', 'web-development']
     ]
 ];
 
@@ -163,8 +222,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$setupComplete) {
             // Select database
             $conn->select_db(DB_NAME);
 
-            // Create tables
-            foreach (['users', 'remember_tokens', 'login_attempts', 'posts'] as $table) {
+            // Create tables (order matters due to foreign key constraints)
+            foreach (['users', 'remember_tokens', 'login_attempts', 'categories', 'tags', 'posts', 'post_tags'] as $table) {
                 if (!$conn->query($schema[$table])) {
                     throw new Exception("Error creating table $table: " . $conn->error);
                 }
@@ -180,24 +239,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$setupComplete) {
             }
             $stmt->close();
 
-            // Insert sample posts
+            // Insert sample categories
+            $stmt = $conn->prepare("INSERT INTO categories (name, slug, color) VALUES (?, ?, ?)");
+            foreach ($sampleCategories as $category) {
+                $stmt->bind_param('sss', $category['name'], $category['slug'], $category['color']);
+                $stmt->execute();
+            }
+            $stmt->close();
+
+            // Insert sample tags
+            $stmt = $conn->prepare("INSERT INTO tags (name, slug, color) VALUES (?, ?, ?)");
+            foreach ($sampleTags as $tag) {
+                $stmt->bind_param('sss', $tag['name'], $tag['slug'], $tag['color']);
+                $stmt->execute();
+            }
+            $stmt->close();
+
+            // Insert sample posts with categories
             $stmt = $conn->prepare("
-                INSERT INTO posts (title, slug, content, excerpt, author, status)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO posts (title, slug, content, excerpt, author, category_id, status)
+                VALUES (?, ?, ?, ?, ?, (SELECT id FROM categories WHERE slug = ?), ?)
             ");
 
             foreach ($samplePosts as $post) {
-                $stmt->bind_param('ssssss',
+                $stmt->bind_param('sssssss',
                     $post['title'],
                     $post['slug'],
                     $post['content'],
                     $post['excerpt'],
                     $post['author'],
+                    $post['category_slug'],
                     $post['status']
                 );
                 $stmt->execute();
             }
             $stmt->close();
+
+            // Insert sample post-tag associations
+            $stmtPostTag = $conn->prepare("
+                INSERT INTO post_tags (post_id, tag_id)
+                SELECT p.id, t.id
+                FROM posts p, tags t
+                WHERE p.slug = ? AND t.slug = ?
+            ");
+
+            foreach ($samplePosts as $post) {
+                if (!empty($post['tags'])) {
+                    foreach ($post['tags'] as $tag_slug) {
+                        $stmtPostTag->bind_param('ss', $post['slug'], $tag_slug);
+                        $stmtPostTag->execute();
+                    }
+                }
+            }
+            $stmtPostTag->close();
 
             $conn->close();
 
@@ -371,7 +465,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$setupComplete) {
                     <ul>
                         <li>Create the database and all required tables</li>
                         <li>Create your admin account with the credentials above</li>
-                        <li>Add 3 sample blog posts (2 published, 1 draft)</li>
+                        <li>Add 4 sample categories and 5 sample tags</li>
+                        <li>Add 3 sample blog posts with categories and tags (2 published, 1 draft)</li>
                     </ul>
                 </div>
             <?php endif; ?>
