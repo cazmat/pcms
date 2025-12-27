@@ -80,31 +80,46 @@ function getPostById($id) {
 /**
  * Create a new post
  */
-function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft') {
+function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft', $category_id = null) {
     $db = getDB();
+
+    // If no category provided, use "Uncategorized"
+    if ($category_id === null) {
+        $uncategorized = getCategoryBySlug('uncategorized');
+        $category_id = $uncategorized ? $uncategorized['id'] : null;
+    }
+
     $stmt = $db->prepare("
-        INSERT INTO posts (title, slug, content, excerpt, author, status)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO posts (title, slug, content, excerpt, author, category_id, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
-    $stmt->bind_param('ssssss', $title, $slug, $content, $excerpt, $author, $status);
+    $stmt->bind_param('sssssis', $title, $slug, $content, $excerpt, $author, $category_id, $status);
     $result = $stmt->execute();
+    $insert_id = $db->insert_id;
     $stmt->close();
 
-    return $result;
+    return $result ? $insert_id : false;
 }
 
 /**
  * Update an existing post
  */
-function updatePost($id, $title, $slug, $content, $excerpt, $author, $status) {
+function updatePost($id, $title, $slug, $content, $excerpt, $author, $status, $category_id = null) {
     $db = getDB();
+
+    // If no category provided, use "Uncategorized"
+    if ($category_id === null) {
+        $uncategorized = getCategoryBySlug('uncategorized');
+        $category_id = $uncategorized ? $uncategorized['id'] : null;
+    }
+
     $stmt = $db->prepare("
         UPDATE posts
         SET title = ?, slug = ?, content = ?,
-            excerpt = ?, author = ?, status = ?
+            excerpt = ?, author = ?, category_id = ?, status = ?
         WHERE id = ?
     ");
-    $stmt->bind_param('ssssssi', $title, $slug, $content, $excerpt, $author, $status, $id);
+    $stmt->bind_param('sssssisi', $title, $slug, $content, $excerpt, $author, $category_id, $status, $id);
     $result = $stmt->execute();
     $stmt->close();
 
