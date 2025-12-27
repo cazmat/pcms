@@ -91,13 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Set default values
 $formData = [
-    'id' => $post['id'] ?? '',
-    'title' => $_POST['title'] ?? $post['title'] ?? '',
-    'content' => $_POST['content'] ?? $post['content'] ?? '',
-    'excerpt' => $_POST['excerpt'] ?? $post['excerpt'] ?? '',
-    'author' => $_POST['author'] ?? $post['author'] ?? 'Admin',
-    'status' => $_POST['status'] ?? $post['status'] ?? 'draft',
-    'slug' => $post['slug'] ?? ''
+    'id' => $post ? ($post['id'] ?? '') : '',
+    'title' => $_POST['title'] ?? ($post ? ($post['title'] ?? '') : ''),
+    'content' => $_POST['content'] ?? ($post ? ($post['content'] ?? '') : ''),
+    'excerpt' => $_POST['excerpt'] ?? ($post ? ($post['excerpt'] ?? '') : ''),
+    'author' => $_POST['author'] ?? ($post ? ($post['author'] ?? 'Admin') : 'Admin'),
+    'status' => $_POST['status'] ?? ($post ? ($post['status'] ?? 'draft') : 'draft'),
+    'slug' => $post ? ($post['slug'] ?? '') : ''
 ];
 
 echo $template->render('pages/admin-edit.php', [
