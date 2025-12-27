@@ -27,14 +27,16 @@
     # Clean URLs: Remove .php extension
     # ========================================================================
 
-    # Redirect .php files to extensionless URLs
+    # Redirect .php files to extensionless URLs (except admin directory)
     RewriteCond %{THE_REQUEST} ^GET\ /([^.]+)\.php [NC]
+    RewriteCond %{REQUEST_URI} !^/admin/ [NC]
     RewriteRule ^ /%1 [R=301,L]
 
-    # Route extensionless URLs to .php files (if they exist)
+    # Route extensionless URLs to .php files (if they exist, except admin directory)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteCond %{REQUEST_URI} !^/admin/ [NC]
     RewriteRule ^(.+)$ $1.php [L]
 
     # ========================================================================
