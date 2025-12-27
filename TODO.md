@@ -144,22 +144,6 @@ None currently.
   - [ ] Template caching for performance
   - [x] Theme support foundation
 
-- [ ] **Rich Text Editor**
-  - [ ] Integrate WYSIWYG editor (TinyMCE/CKEditor)
-  - [ ] HTML formatting toolbar
-  - [ ] Image insertion support
-
-- [ ] **Image Management**
-  - [ ] Featured image upload
-  - [ ] Image resizing/optimization
-  - [ ] Image gallery/media library
-  - [ ] File type validation
-
-- [ ] **Search Functionality**
-  - [ ] Full-text search for posts
-  - [ ] Search results page
-  - [ ] Search highlighting
-
 - [ ] **Categories & Tags**
   - [ ] Category system
   - [ ] Tag system
@@ -328,6 +312,9 @@ None currently reported.
 - User roles (admin, editor, author)
 - User profile management
 - Author bio and avatar
+- Rich text editor (WYSIWYG like TinyMCE/CKEditor)
+- Image management system (upload, resize, media library)
+- Search functionality (full-text search with results page)
 
 ---
 
