@@ -148,6 +148,7 @@ None currently.
   - [x] Database schema (categories, tags, post_tags tables)
   - [x] Helper functions for CRUD operations
   - [x] Update post create/update functions for category support
+  - [x] Enrich homepage posts with category data
   - [ ] Update setup.sql with categories & tags schema
   - [ ] Update setup.php with categories & tags schema
   - [ ] Admin category management pages (list, create, edit, delete)
@@ -158,6 +159,7 @@ None currently.
   - [ ] URL routing rules (.htaccess)
   - [ ] CSS styling for category/tag UI elements
   - [ ] Update admin navigation with Categories and Tags links
+  - [ ] Homepage category filter support (query parameter)
 
 ### Medium Priority - SEO & Performance
 
