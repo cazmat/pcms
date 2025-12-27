@@ -34,6 +34,13 @@ $pagination = getPaginationData(
 // Fetch posts for current page
 $posts = getAllPostsAdmin($posts_per_page, $pagination['offset']);
 
+// Calculate dashboard stats
+$stats = [
+    'total' => getTotalPosts(),
+    'published' => getTotalPublishedPosts(),
+    'drafts' => getTotalDraftPosts()
+];
+
 $message = '';
 
 if (isset($_GET['created'])) {
@@ -46,6 +53,7 @@ if (isset($_GET['created'])) {
 
 echo $template->render('pages/admin-index.php', [
     'posts' => $posts,
+    'stats' => $stats,
     'message' => $message,
     'current_user' => $current_user,
     'pagination' => $pagination

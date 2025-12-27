@@ -153,6 +153,20 @@ function getTotalPosts() {
 }
 
 /**
+ * Get total count of draft posts
+ */
+function getTotalDraftPosts() {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT COUNT(*) as total FROM posts WHERE status = 'draft'");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return (int)$row['total'];
+}
+
+/**
  * Generate pagination data
  *
  * @param int $current_page Current page number (1-indexed)
