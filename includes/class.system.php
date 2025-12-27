@@ -22,7 +22,12 @@
         "maintenance" => false,
         "pretty_url" => true,
         "site_name" => "My Blog",
-        "timezone" => "UTC"
+        "timezone" => "UTC",
+        "social_github" => "",
+        "social_insta" => "",
+        "social_linked" => "",
+        "social_twitch" => "",
+        "social_twitter" => ""
       ];
     }
     public function set_setting($key, $value) {

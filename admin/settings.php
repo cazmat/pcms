@@ -62,6 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $maintenance = isset($_POST['maintenance']) && $_POST['maintenance'] === '1';
             $pretty_url = isset($_POST['pretty_url']) && $_POST['pretty_url'] === '1';
 
+            // Social media links
+            $social_github = trim($_POST['social_github'] ?? '');
+            $social_insta = trim($_POST['social_insta'] ?? '');
+            $social_linked = trim($_POST['social_linked'] ?? '');
+            $social_twitch = trim($_POST['social_twitch'] ?? '');
+            $social_twitter = trim($_POST['social_twitter'] ?? '');
+
             // Validation
             if (empty($site_name)) {
                 $errors[] = 'Site name is required';
@@ -93,6 +100,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[] = 'Date format is required';
             }
 
+            // Validate social media URLs (optional, but must be valid if provided)
+            if (!empty($social_github) && !filter_var($social_github, FILTER_VALIDATE_URL)) {
+                $errors[] = 'GitHub URL must be a valid URL';
+            }
+            if (!empty($social_insta) && !filter_var($social_insta, FILTER_VALIDATE_URL)) {
+                $errors[] = 'Instagram URL must be a valid URL';
+            }
+            if (!empty($social_linked) && !filter_var($social_linked, FILTER_VALIDATE_URL)) {
+                $errors[] = 'LinkedIn URL must be a valid URL';
+            }
+            if (!empty($social_twitch) && !filter_var($social_twitch, FILTER_VALIDATE_URL)) {
+                $errors[] = 'Twitch URL must be a valid URL';
+            }
+            if (!empty($social_twitter) && !filter_var($social_twitter, FILTER_VALIDATE_URL)) {
+                $errors[] = 'Twitter URL must be a valid URL';
+            }
+
             // If no errors, save settings
             if (empty($errors)) {
                 $system->set_setting('site_name', sanitizePlainText($site_name));
@@ -103,6 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $system->set_setting('date_format', $date_format);
                 $system->set_setting('maintenance', $maintenance);
                 $system->set_setting('pretty_url', $pretty_url);
+
+                // Save social media links
+                $system->set_setting('social_github', $social_github);
+                $system->set_setting('social_insta', $social_insta);
+                $system->set_setting('social_linked', $social_linked);
+                $system->set_setting('social_twitch', $social_twitch);
+                $system->set_setting('social_twitter', $social_twitter);
 
                 if ($system->save_settings()) {
                     redirect('settings.php?saved=1');
