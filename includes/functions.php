@@ -922,3 +922,380 @@ function initErrorLogging() {
         cleanupOldLogs();
     }
 }
+
+// ============================================================================
+// CATEGORY FUNCTIONS
+// ============================================================================
+
+/**
+ * Get all categories
+ */
+function getAllCategories() {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM categories ORDER BY name ASC");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $categories = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $categories;
+}
+
+/**
+ * Get category by ID
+ */
+function getCategoryById($id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM categories WHERE id = ? LIMIT 1");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $category = $result->fetch_assoc();
+    $stmt->close();
+
+    return $category;
+}
+
+/**
+ * Get category by slug
+ */
+function getCategoryBySlug($slug) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM categories WHERE slug = ? LIMIT 1");
+    $stmt->bind_param('s', $slug);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $category = $result->fetch_assoc();
+    $stmt->close();
+
+    return $category;
+}
+
+/**
+ * Create a new category
+ */
+function createCategory($name, $slug, $color = '#3B82F6') {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO categories (name, slug, color) VALUES (?, ?, ?)");
+    $stmt->bind_param('sss', $name, $slug, $color);
+    $result = $stmt->execute();
+    $insert_id = $db->insert_id;
+    $stmt->close();
+
+    return $result ? $insert_id : false;
+}
+
+/**
+ * Update a category
+ */
+function updateCategory($id, $name, $slug, $color) {
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE categories SET name = ?, slug = ?, color = ? WHERE id = ?");
+    $stmt->bind_param('sssi', $name, $slug, $color, $id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Delete a category (reassigns posts to "Uncategorized")
+ */
+function deleteCategory($id) {
+    $db = getDB();
+
+    // Get the "Uncategorized" category ID
+    $uncategorized = getCategoryBySlug('uncategorized');
+    if (!$uncategorized) {
+        return false;
+    }
+
+    // Reassign all posts from this category to "Uncategorized"
+    $stmt = $db->prepare("UPDATE posts SET category_id = ? WHERE category_id = ?");
+    $stmt->bind_param('ii', $uncategorized['id'], $id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Delete the category
+    $stmt = $db->prepare("DELETE FROM categories WHERE id = ?");
+    $stmt->bind_param('i', $id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Get posts by category (with pagination)
+ */
+function getPostsByCategory($category_id, $limit = null, $offset = 0, $published_only = true) {
+    $db = getDB();
+
+    $sql = "SELECT * FROM posts WHERE category_id = ?";
+    if ($published_only) {
+        $sql .= " AND status = 'published'";
+    }
+    $sql .= " ORDER BY created_at DESC";
+
+    if ($limit !== null) {
+        $sql .= " LIMIT ? OFFSET ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param('iii', $category_id, $limit, $offset);
+    } else {
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param('i', $category_id);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $posts = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $posts;
+}
+
+/**
+ * Get total posts count for a category
+ */
+function getTotalPostsByCategory($category_id, $published_only = true) {
+    $db = getDB();
+
+    $sql = "SELECT COUNT(*) as total FROM posts WHERE category_id = ?";
+    if ($published_only) {
+        $sql .= " AND status = 'published'";
+    }
+
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param('i', $category_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return (int)$row['total'];
+}
+
+// ============================================================================
+// TAG FUNCTIONS
+// ============================================================================
+
+/**
+ * Get all tags
+ */
+function getAllTags() {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM tags ORDER BY name ASC");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $tags = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $tags;
+}
+
+/**
+ * Get tag by ID
+ */
+function getTagById($id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM tags WHERE id = ? LIMIT 1");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $tag = $result->fetch_assoc();
+    $stmt->close();
+
+    return $tag;
+}
+
+/**
+ * Get tag by slug
+ */
+function getTagBySlug($slug) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT * FROM tags WHERE slug = ? LIMIT 1");
+    $stmt->bind_param('s', $slug);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $tag = $result->fetch_assoc();
+    $stmt->close();
+
+    return $tag;
+}
+
+/**
+ * Create a new tag
+ */
+function createTag($name, $slug, $color = '#8B5CF6') {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO tags (name, slug, color) VALUES (?, ?, ?)");
+    $stmt->bind_param('sss', $name, $slug, $color);
+    $result = $stmt->execute();
+    $insert_id = $db->insert_id;
+    $stmt->close();
+
+    return $result ? $insert_id : false;
+}
+
+/**
+ * Update a tag
+ */
+function updateTag($id, $name, $slug, $color) {
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE tags SET name = ?, slug = ?, color = ? WHERE id = ?");
+    $stmt->bind_param('sssi', $name, $slug, $color, $id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Delete a tag (removes all post-tag associations)
+ */
+function deleteTag($id) {
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM tags WHERE id = ?");
+    $stmt->bind_param('i', $id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Get tags for a post
+ */
+function getPostTags($post_id) {
+    $db = getDB();
+    $stmt = $db->prepare("
+        SELECT t.*
+        FROM tags t
+        INNER JOIN post_tags pt ON t.id = pt.tag_id
+        WHERE pt.post_id = ?
+        ORDER BY t.name ASC
+    ");
+    $stmt->bind_param('i', $post_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $tags = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $tags;
+}
+
+/**
+ * Get posts by tag (with pagination)
+ */
+function getPostsByTag($tag_id, $limit = null, $offset = 0, $published_only = true) {
+    $db = getDB();
+
+    $sql = "
+        SELECT p.*
+        FROM posts p
+        INNER JOIN post_tags pt ON p.id = pt.post_id
+        WHERE pt.tag_id = ?
+    ";
+    if ($published_only) {
+        $sql .= " AND p.status = 'published'";
+    }
+    $sql .= " ORDER BY p.created_at DESC";
+
+    if ($limit !== null) {
+        $sql .= " LIMIT ? OFFSET ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param('iii', $tag_id, $limit, $offset);
+    } else {
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param('i', $tag_id);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $posts = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $posts;
+}
+
+/**
+ * Get total posts count for a tag
+ */
+function getTotalPostsByTag($tag_id, $published_only = true) {
+    $db = getDB();
+
+    $sql = "
+        SELECT COUNT(*) as total
+        FROM posts p
+        INNER JOIN post_tags pt ON p.id = pt.post_id
+        WHERE pt.tag_id = ?
+    ";
+    if ($published_only) {
+        $sql .= " AND p.status = 'published'";
+    }
+
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param('i', $tag_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return (int)$row['total'];
+}
+
+/**
+ * Add a tag to a post
+ */
+function addTagToPost($post_id, $tag_id) {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT IGNORE INTO post_tags (post_id, tag_id) VALUES (?, ?)");
+    $stmt->bind_param('ii', $post_id, $tag_id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Remove a tag from a post
+ */
+function removeTagFromPost($post_id, $tag_id) {
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM post_tags WHERE post_id = ? AND tag_id = ?");
+    $stmt->bind_param('ii', $post_id, $tag_id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Remove all tags from a post
+ */
+function removeAllTagsFromPost($post_id) {
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM post_tags WHERE post_id = ?");
+    $stmt->bind_param('i', $post_id);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+/**
+ * Set tags for a post (replaces existing tags)
+ */
+function setPostTags($post_id, $tag_ids) {
+    // Remove all existing tags
+    removeAllTagsFromPost($post_id);
+
+    // Add new tags
+    if (!empty($tag_ids)) {
+        foreach ($tag_ids as $tag_id) {
+            addTagToPost($post_id, $tag_id);
+        }
+    }
+
+    return true;
+}
