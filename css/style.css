@@ -802,6 +802,147 @@ body {
 }
 
 /* ============================================================================
+   Admin Header Styles
+   ============================================================================ */
+
+.admin-header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.admin-header-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: var(--spacing-md) var(--spacing-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-xl);
+}
+
+/* Admin Logo */
+.admin-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    color: white;
+}
+
+.admin-logo svg {
+    flex-shrink: 0;
+}
+
+.admin-logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.025em;
+}
+
+/* Admin Navigation */
+.admin-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2xl);
+    flex: 1;
+}
+
+.admin-nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex: 1;
+}
+
+.admin-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-speed) ease;
+    white-space: nowrap;
+}
+
+.admin-nav-link svg {
+    flex-shrink: 0;
+}
+
+.admin-nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.admin-nav-view-site {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.admin-nav-view-site:hover {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* Admin User Section */
+.admin-nav-user {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-user-info {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-user-info svg {
+    flex-shrink: 0;
+}
+
+.admin-username {
+    font-weight: 600;
+    color: white;
+}
+
+.admin-logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: white;
+    background: rgba(249, 115, 22, 0.9);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+    white-space: nowrap;
+}
+
+.admin-logout-btn:hover {
+    background: var(--color-accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.admin-logout-btn svg {
+    flex-shrink: 0;
+}
+
+/* ============================================================================
    Admin Dashboard Styles
    ============================================================================ */
 
@@ -1522,14 +1663,76 @@ header nav {
     color: white;
 }
 
-/* Responsive Admin Dashboard */
+/* Responsive Admin Header and Dashboard */
 @media (max-width: 1024px) {
+    .admin-nav-links {
+        gap: 0;
+    }
+
+    .admin-nav-link span {
+        display: none;
+    }
+
+    .admin-nav-link {
+        padding: var(--spacing-sm);
+    }
+
     .posts-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
 @media (max-width: 768px) {
+    /* Admin Header Mobile */
+    .admin-header-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+
+    .admin-logo {
+        justify-content: center;
+    }
+
+    .admin-nav {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .admin-nav-links {
+        justify-content: space-around;
+        width: 100%;
+        gap: var(--spacing-xs);
+    }
+
+    .admin-nav-link {
+        flex: 1;
+        justify-content: center;
+        padding: var(--spacing-sm);
+    }
+
+    .admin-nav-user {
+        flex-direction: column;
+        padding-left: 0;
+        border-left: none;
+        padding-top: var(--spacing-md);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        width: 100%;
+        gap: var(--spacing-sm);
+    }
+
+    .admin-user-info {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-logout-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Dashboard Mobile */
     .dashboard-hero-content {
         flex-direction: column;
         align-items: flex-start;
@@ -1562,12 +1765,6 @@ header nav {
     }
 
     /* Old admin styles */
-    .admin-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-md);
-    }
-
     .posts-table {
         font-size: var(--font-size-sm);
     }
