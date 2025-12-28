@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $timezone = trim($_POST['timezone'] ?? 'UTC');
             $date_format = trim($_POST['date_format'] ?? 'F j, Y');
             $maintenance = isset($_POST['maintenance']) && $_POST['maintenance'] === '1';
+            $coming_soon = isset($_POST['coming_soon']) && $_POST['coming_soon'] === '1';
             $pretty_url = isset($_POST['pretty_url']) && $_POST['pretty_url'] === '1';
 
             // Social media links
@@ -126,6 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $system->set_setting('timezone', $timezone);
                 $system->set_setting('date_format', $date_format);
                 $system->set_setting('maintenance', $maintenance);
+                $system->set_setting('coming_soon', $coming_soon);
                 $system->set_setting('pretty_url', $pretty_url);
 
                 // Save social media links

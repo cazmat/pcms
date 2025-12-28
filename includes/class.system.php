@@ -18,6 +18,7 @@
         "admin_email" => "admin@example.com",
         "base_url" => "http://localhost",
         "blog_ppp" => 10,
+        "coming_soon" => false,
         "date_format" => "F j, Y",
         "maintenance" => false,
         "pretty_url" => true,

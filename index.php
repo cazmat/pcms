@@ -10,6 +10,15 @@ if ($system->get_setting('maintenance') && !isLoggedIn()) {
     exit;
 }
 
+// Check for coming soon mode
+if ($system->get_setting('coming_soon') && !isLoggedIn()) {
+    $template = new Template();
+    $template->render('pages/coming-soon.php', [
+        'system' => $system
+    ]);
+    exit;
+}
+
 // Pagination setup
 $current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $posts_per_page = $system->get_setting('blog_ppp');
