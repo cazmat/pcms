@@ -30,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $excerpt = trim($_POST['excerpt'] ?? '');
     $author = trim($_POST['author'] ?? '');
     $status = $_POST['status'] ?? 'draft';
+    $category_id = !empty($_POST['category_id']) ? (int)$_POST['category_id'] : null;
+    $tag_ids = isset($_POST['tag_ids']) && is_array($_POST['tag_ids']) ? array_map('intval', $_POST['tag_ids']) : [];
 
     // Validate CSRF token
     if (!validateCSRFToken($csrf_token)) {
@@ -73,14 +75,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($isEdit) {
             // Update existing post
-            if (updatePost($_POST['id'], $title, $slug, $content, $excerpt, $author, $status)) {
+            if (updatePost($_POST['id'], $title, $slug, $content, $excerpt, $author, $status, $category_id)) {
+                // Update tags
+                setPostTags($_POST['id'], $tag_ids);
                 redirect('index.php?updated=1');
             } else {
                 $errors[] = 'Failed to update post';
             }
         } else {
             // Create new post
-            if (createPost($title, $slug, $content, $excerpt, $author, $status)) {
+            $post_id = createPost($title, $slug, $content, $excerpt, $author, $status, $category_id);
+            if ($post_id) {
+                // Set tags for new post
+                setPostTags($post_id, $tag_ids);
                 redirect('index.php?created=1');
             } else {
                 $errors[] = 'Failed to create post';
@@ -97,13 +104,33 @@ $formData = [
     'excerpt' => $_POST['excerpt'] ?? ($post ? ($post['excerpt'] ?? '') : ''),
     'author' => $_POST['author'] ?? ($post ? ($post['author'] ?? 'Admin') : 'Admin'),
     'status' => $_POST['status'] ?? ($post ? ($post['status'] ?? 'draft') : 'draft'),
-    'slug' => $post ? ($post['slug'] ?? '') : ''
+    'slug' => $post ? ($post['slug'] ?? '') : '',
+    'category_id' => $_POST['category_id'] ?? ($post ? ($post['category_id'] ?? null) : null)
 ];
+
+// Get all categories and tags for the form
+$categories = getAllCategories();
+$tags = getAllTags();
+
+// Get current post tags if editing
+$currentTagIds = [];
+if ($isEdit && $post) {
+    $postTags = getPostTags($post['id']);
+    $currentTagIds = array_column($postTags, 'id');
+}
+
+// If POST submission failed, preserve selected tags
+if (!empty($_POST['tag_ids'])) {
+    $currentTagIds = array_map('intval', $_POST['tag_ids']);
+}
 
 echo $template->render('pages/admin-edit.php', [
     'errors' => $errors,
     'formData' => $formData,
     'isEdit' => $isEdit,
     'current_user' => $current_user,
-    'csrf_token' => getCSRFToken()
+    'csrf_token' => getCSRFToken(),
+    'categories' => $categories,
+    'tags' => $tags,
+    'currentTagIds' => $currentTagIds
 ]);
