@@ -16,6 +16,7 @@
     public function get_default_settings() {
       return [
         "admin_email" => "admin@example.com",
+        "allow_contact" => true,
         "base_url" => "http://localhost",
         "blog_ppp" => 10,
         "coming_soon" => false,
@@ -25,10 +26,7 @@
         "site_name" => "My Blog",
         "timezone" => "UTC",
         "social_github" => "",
-        "social_insta" => "",
-        "social_linked" => "",
-        "social_twitch" => "",
-        "social_twitter" => ""
+        "social_twitch" => ""
       ];
     }
     public function set_setting($key, $value) {
