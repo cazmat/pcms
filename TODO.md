@@ -157,7 +157,7 @@ None currently.
   - [ ] Frontend tag archive pages
   - [ ] URL routing rules (.htaccess)
   - [ ] CSS styling for category/tag UI elements
-  - [ ] Update admin navigation with Categories and Tags links
+  - [x] Update admin navigation with Categories and Tags links
   - [ ] Homepage category filter support (query parameter)
 
 ### Medium Priority - SEO & Performance
