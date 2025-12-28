@@ -141,7 +141,6 @@ None currently.
   - [x] Separate presentation from logic (MVC pattern)
   - [x] Template engine (custom with hybrid PHP/{{ }} syntax)
   - [x] Layout and partial system (@extends, @section, @yield, @include)
-  - [ ] Template caching for performance
   - [x] Theme support foundation
 
 - [ ] **Categories & Tags**
@@ -149,8 +148,8 @@ None currently.
   - [x] Helper functions for CRUD operations
   - [x] Update post create/update functions for category support
   - [x] Enrich homepage posts with category data
-  - [ ] Update setup.sql with categories & tags schema
-  - [ ] Update setup.php with categories & tags schema
+  - [x] Update setup.sql with categories & tags schema
+  - [x] Update setup.php with categories & tags schema
   - [ ] Admin category management pages (list, create, edit, delete)
   - [ ] Admin tag management pages (list, create, edit, delete)
   - [ ] Update post edit page with category dropdown and tag selection
@@ -287,7 +286,6 @@ None currently.
 - SEO improvements (meta tags, Open Graph, Twitter Cards)
 - XML sitemap generation
 - Robots.txt file
-- Template caching for performance
 
 ### v1.0 - Production Ready
 - Performance optimization (database queries, caching, asset minification)
@@ -329,6 +327,7 @@ None currently reported.
 - Rich text editor (WYSIWYG like TinyMCE/CKEditor)
 - Image management system (upload, resize, media library)
 - Search functionality (full-text search with results page)
+- Template caching for performance
 
 ---
 

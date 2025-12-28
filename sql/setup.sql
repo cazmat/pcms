@@ -39,6 +39,30 @@ CREATE TABLE IF NOT EXISTS login_attempts (
     INDEX idx_attempted_at (attempted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Categories table
+CREATE TABLE IF NOT EXISTS categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    color VARCHAR(7) DEFAULT '#3B82F6',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_slug (slug),
+    INDEX idx_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tags table
+CREATE TABLE IF NOT EXISTS tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    color VARCHAR(7) DEFAULT '#8B5CF6',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_slug (slug),
+    INDEX idx_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Posts table
 CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,30 +71,79 @@ CREATE TABLE IF NOT EXISTS posts (
     content TEXT NOT NULL,
     excerpt VARCHAR(500),
     author VARCHAR(100) NOT NULL,
+    category_id INT NULL,
     status ENUM('draft', 'published') DEFAULT 'draft',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
     INDEX idx_slug (slug),
     INDEX idx_status (status),
-    INDEX idx_created_at (created_at)
+    INDEX idx_created_at (created_at),
+    INDEX idx_category_id (category_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Post-Tag junction table (many-to-many relationship)
+CREATE TABLE IF NOT EXISTS post_tags (
+    post_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (post_id, tag_id),
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+    INDEX idx_post_id (post_id),
+    INDEX idx_tag_id (tag_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Insert default categories
+INSERT INTO categories (name, slug, color) VALUES
+('Uncategorized', 'uncategorized', '#6B7280'),
+('Technology', 'technology', '#3B82F6'),
+('Programming', 'programming', '#8B5CF6'),
+('Tutorials', 'tutorials', '#10B981');
+
+-- Insert default tags
+INSERT INTO tags (name, slug, color) VALUES
+('PHP', 'php', '#8B5CF6'),
+('MySQL', 'mysql', '#F59E0B'),
+('Web Development', 'web-development', '#10B981'),
+('Tutorial', 'tutorial', '#EC4899'),
+('Beginner', 'beginner', '#6366F1');
+
 -- Insert sample data
-INSERT INTO posts (title, slug, content, excerpt, author, status) VALUES
+INSERT INTO posts (title, slug, content, excerpt, author, category_id, status) VALUES
 ('Welcome to My Blog', 'welcome-to-my-blog',
 '<p>Welcome to my new blog! This is my first post and I\'m excited to share my thoughts with you.</p><p>This blog is built using PHP and MySQL, providing a simple but effective platform for sharing content.</p><p>Stay tuned for more posts!</p>',
 'Welcome to my new blog! This is my first post and I\'m excited to share my thoughts with you.',
-'Admin', 'published'),
+'Admin', (SELECT id FROM categories WHERE slug = 'uncategorized'), 'published'),
 
 ('Getting Started with PHP', 'getting-started-with-php',
 '<p>PHP is a popular server-side scripting language that powers millions of websites worldwide.</p><p>In this post, we\'ll explore the basics of PHP and why it\'s a great choice for web development.</p><p>PHP is easy to learn, widely supported, and integrates seamlessly with databases like MySQL.</p>',
 'Learn the basics of PHP and discover why it\'s such a popular choice for web development.',
-'Admin', 'published'),
+'Admin', (SELECT id FROM categories WHERE slug = 'programming'), 'published'),
 
 ('Building a Blog with PHP', 'building-a-blog-with-php',
 '<p>Creating a blog system is a great way to learn PHP and database integration.</p><p>In this tutorial series, we\'ll build a complete blog from scratch, including features like:</p><ul><li>Post creation and editing</li><li>Database integration</li><li>Clean URL slugs</li><li>Responsive design</li></ul>',
 'Learn how to build a complete blog system using PHP and MySQL from scratch.',
-'Admin', 'draft');
+'Admin', (SELECT id FROM categories WHERE slug = 'tutorials'), 'draft');
+
+-- Associate sample tags with posts
+-- Post 1: "Welcome to My Blog" - Uncategorized
+INSERT INTO post_tags (post_id, tag_id) VALUES
+(1, (SELECT id FROM tags WHERE slug = 'web-development')),
+(1, (SELECT id FROM tags WHERE slug = 'beginner'));
+
+-- Post 2: "Getting Started with PHP" - Programming
+INSERT INTO post_tags (post_id, tag_id) VALUES
+(2, (SELECT id FROM tags WHERE slug = 'php')),
+(2, (SELECT id FROM tags WHERE slug = 'tutorial')),
+(2, (SELECT id FROM tags WHERE slug = 'beginner'));
+
+-- Post 3: "Building a Blog with PHP" - Tutorials
+INSERT INTO post_tags (post_id, tag_id) VALUES
+(3, (SELECT id FROM tags WHERE slug = 'php')),
+(3, (SELECT id FROM tags WHERE slug = 'mysql')),
+(3, (SELECT id FROM tags WHERE slug = 'tutorial')),
+(3, (SELECT id FROM tags WHERE slug = 'web-development'));
 
 -- NOTE: Admin user creation has been moved to setup.php
 -- Run setup.php in your browser to create your admin account and complete the setup
