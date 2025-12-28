@@ -1194,6 +1194,21 @@ function deleteTag($id) {
 }
 
 /**
+ * Get post count for a tag
+ */
+function getTagPostCount($tag_id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT COUNT(*) as count FROM post_tags WHERE tag_id = ?");
+    $stmt->bind_param('i', $tag_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return $row ? (int)$row['count'] : 0;
+}
+
+/**
  * Get tags for a post
  */
 function getPostTags($post_id) {
