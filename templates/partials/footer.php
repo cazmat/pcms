@@ -10,7 +10,7 @@
                 <h4>Quick Links</h4>
                 <ul>
                     <li><a href="{{ $system->get_setting('base_url') }}">Home</a></li>
-                    <li><a href="{{ $system->get_setting('base_url') }}/admin/index.php">Admin</a></li>
+                    <li><a href="{{ $system->get_setting('base_url') }}/admin/">Admin</a></li>
                 </ul>
             </div>
 
