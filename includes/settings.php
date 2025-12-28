@@ -1,6 +1,7 @@
 <?php
   $settings = [
     "admin_email" => "me@mlutz.us",
+    "allow_contact" => true,
     "base_url" => "http://localhost",
     "blog_ppp" => 10,
     "coming_soon" => true,
@@ -9,9 +10,6 @@
     "pretty_url" => true,
     "site_name" => "Matthew Lutz",
     "timezone" => "UTC",
-    "social_github" => "",
-    "social_insta" => "",
-    "social_linked" => "",
-    "social_twitch" => "",
-    "social_twitter" => "",
+    "social_github" => "https://github.com/cazmat",
+    "social_twitch" => ""
   ];

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?php echo e($system->get_setting('base_url')); ?>/css/style.css">
     @yield('head')
 </head>
-<body>
+<body class="@yield('pageclass')">
     @include('header.php')
 
     <main class="site-main">

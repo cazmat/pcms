@@ -4,6 +4,10 @@
 <?php echo $filter_category ? htmlspecialchars($filter_category['name']) . ' - ' : ''; ?>Home
 @endsection
 
+@section('pageclass')
+site-home
+@endsection
+
 @section('content')
 <?php if ($filter_category): ?>
     <!-- Category Filter Indicator -->
