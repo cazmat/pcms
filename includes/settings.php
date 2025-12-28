@@ -9,10 +9,9 @@
     "pretty_url" => true,
     "site_name" => "Matthew Lutz",
     "timezone" => "UTC",
-    // socials
     "social_github" => "",
     "social_insta" => "",
     "social_linked" => "",
     "social_twitch" => "",
-    "social_twitter" => ""
+    "social_twitter" => "",
   ];

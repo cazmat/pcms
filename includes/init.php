@@ -10,6 +10,7 @@
   require_once(ROOT_PATH ."includes/functions.php");
   require_once(ROOT_PATH ."includes/class.system.php");
   require_once(ROOT_PATH ."includes/class.template.php");
+  require_once(ROOT_PATH ."includes/helpers.php");
 
   // Initialize error logging
   initErrorLogging();
