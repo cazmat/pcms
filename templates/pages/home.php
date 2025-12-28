@@ -1,10 +1,35 @@
 @extends('main.php')
 
 @section('title')
-Home
+<?php echo $filter_category ? htmlspecialchars($filter_category['name']) . ' - ' : ''; ?>Home
 @endsection
 
 @section('content')
+<?php if ($filter_category): ?>
+    <!-- Category Filter Indicator -->
+    <div class="filter-indicator">
+        <div class="filter-indicator-content">
+            <div class="filter-label">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                </svg>
+                Filtered by category:
+            </div>
+            <div class="filter-category">
+                <span class="filter-category-color" style="background-color: {{ $filter_category['color'] }}"></span>
+                <span class="filter-category-name">{{ htmlspecialchars($filter_category['name']) }}</span>
+            </div>
+            <a href="{{ $system->get_setting('base_url') }}" class="filter-clear">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+                Clear filter
+            </a>
+        </div>
+    </div>
+<?php endif; ?>
+
 <?php if (empty($posts)): ?>
     <div class="no-posts-message">
         <div class="no-posts-icon">📝</div>
@@ -89,4 +114,85 @@ Home
         @include('sidebar.php')
     </div>
 <?php endif; ?>
+
+<style>
+.filter-indicator {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.filter-indicator-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.filter-category {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.filter-category-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.filter-category-name {
+    font-weight: 600;
+}
+
+.filter-clear {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    margin-left: auto;
+}
+
+.filter-clear:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 768px) {
+    .filter-indicator-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .filter-clear {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
 @endsection

@@ -158,7 +158,7 @@ None currently.
   - [x] URL routing rules (.htaccess)
   - [x] CSS styling for category/tag UI elements
   - [x] Update admin navigation with Categories and Tags links
-  - [ ] Homepage category filter support (query parameter)
+  - [x] Homepage category filter support (query parameter)
 
 ### Medium Priority - SEO & Performance
 
