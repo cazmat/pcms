@@ -4,6 +4,15 @@
 {{ $post['title'] }}
 @endsection
 
+@section('head')
+<?php if (!empty($post['meta_description'])): ?>
+    <meta name="description" content="{{ htmlspecialchars($post['meta_description']) }}">
+<?php endif; ?>
+<?php if (!empty($post['meta_keywords'])): ?>
+    <meta name="keywords" content="{{ htmlspecialchars($post['meta_keywords']) }}">
+<?php endif; ?>
+@endsection
+
 @section('content')
 <!-- Post Header with Gradient Background -->
 <section class="post-header">

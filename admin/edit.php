@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $excerpt = trim($_POST['excerpt'] ?? '');
+    $meta_description = trim($_POST['meta_description'] ?? '');
+    $meta_keywords = trim($_POST['meta_keywords'] ?? '');
     $author = trim($_POST['author'] ?? '');
     $status = $_POST['status'] ?? 'draft';
     $category_id = !empty($_POST['category_id']) ? (int)$_POST['category_id'] : null;
@@ -51,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $content = sanitizeHTML($content);
         $title = sanitizePlainText($title);
         $excerpt = sanitizePlainText($excerpt);
+        $meta_description = sanitizePlainText($meta_description);
+        $meta_keywords = sanitizePlainText($meta_keywords);
         $author = sanitizePlainText($author);
     }
 
@@ -75,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($isEdit) {
             // Update existing post
-            if (updatePost($_POST['id'], $title, $slug, $content, $excerpt, $author, $status, $category_id)) {
+            if (updatePost($_POST['id'], $title, $slug, $content, $excerpt, $author, $status, $category_id, $meta_description, $meta_keywords)) {
                 // Update tags
                 setPostTags($_POST['id'], $tag_ids);
                 redirect('index.php?updated=1');
@@ -84,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } else {
             // Create new post
-            $post_id = createPost($title, $slug, $content, $excerpt, $author, $status, $category_id);
+            $post_id = createPost($title, $slug, $content, $excerpt, $author, $status, $category_id, $meta_description, $meta_keywords);
             if ($post_id) {
                 // Set tags for new post
                 setPostTags($post_id, $tag_ids);
@@ -102,6 +106,8 @@ $formData = [
     'title' => $_POST['title'] ?? ($post ? ($post['title'] ?? '') : ''),
     'content' => $_POST['content'] ?? ($post ? ($post['content'] ?? '') : ''),
     'excerpt' => $_POST['excerpt'] ?? ($post ? ($post['excerpt'] ?? '') : ''),
+    'meta_description' => $_POST['meta_description'] ?? ($post ? ($post['meta_description'] ?? '') : ''),
+    'meta_keywords' => $_POST['meta_keywords'] ?? ($post ? ($post['meta_keywords'] ?? '') : ''),
     'author' => $_POST['author'] ?? ($post ? ($post['author'] ?? 'Admin') : 'Admin'),
     'status' => $_POST['status'] ?? ($post ? ($post['status'] ?? 'draft') : 'draft'),
     'slug' => $post ? ($post['slug'] ?? '') : '',

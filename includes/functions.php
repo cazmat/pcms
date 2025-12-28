@@ -80,7 +80,7 @@ function getPostById($id) {
 /**
  * Create a new post
  */
-function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft', $category_id = null) {
+function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft', $category_id = null, $meta_description = null, $meta_keywords = null) {
     $db = getDB();
 
     // If no category provided, use "Uncategorized"
@@ -90,10 +90,10 @@ function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft
     }
 
     $stmt = $db->prepare("
-        INSERT INTO posts (title, slug, content, excerpt, author, category_id, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO posts (title, slug, content, excerpt, meta_description, meta_keywords, author, category_id, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
-    $stmt->bind_param('sssssis', $title, $slug, $content, $excerpt, $author, $category_id, $status);
+    $stmt->bind_param('sssssssis', $title, $slug, $content, $excerpt, $meta_description, $meta_keywords, $author, $category_id, $status);
     $result = $stmt->execute();
     $insert_id = $db->insert_id;
     $stmt->close();
@@ -104,7 +104,7 @@ function createPost($title, $slug, $content, $excerpt, $author, $status = 'draft
 /**
  * Update an existing post
  */
-function updatePost($id, $title, $slug, $content, $excerpt, $author, $status, $category_id = null) {
+function updatePost($id, $title, $slug, $content, $excerpt, $author, $status, $category_id = null, $meta_description = null, $meta_keywords = null) {
     $db = getDB();
 
     // If no category provided, use "Uncategorized"
@@ -116,10 +116,10 @@ function updatePost($id, $title, $slug, $content, $excerpt, $author, $status, $c
     $stmt = $db->prepare("
         UPDATE posts
         SET title = ?, slug = ?, content = ?,
-            excerpt = ?, author = ?, category_id = ?, status = ?
+            excerpt = ?, meta_description = ?, meta_keywords = ?, author = ?, category_id = ?, status = ?
         WHERE id = ?
     ");
-    $stmt->bind_param('sssssisi', $title, $slug, $content, $excerpt, $author, $category_id, $status, $id);
+    $stmt->bind_param('sssssssisi', $title, $slug, $content, $excerpt, $meta_description, $meta_keywords, $author, $category_id, $status, $id);
     $result = $stmt->execute();
     $stmt->close();
 

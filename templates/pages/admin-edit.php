@@ -34,6 +34,19 @@
         <small>A short summary of your post (optional)</small>
     </div>
 
+    <!-- SEO Meta Fields -->
+    <div class="form-group">
+        <label for="meta_description">Meta Description</label>
+        <textarea id="meta_description" name="meta_description" rows="2" maxlength="160">{{ $formData['meta_description'] }}</textarea>
+        <small>SEO meta description (max 160 characters, optional)</small>
+    </div>
+
+    <div class="form-group">
+        <label for="meta_keywords">Meta Keywords</label>
+        <input type="text" id="meta_keywords" name="meta_keywords" value="{{ $formData['meta_keywords'] }}" maxlength="255">
+        <small>Comma-separated keywords for SEO (optional)</small>
+    </div>
+
     <div class="form-group">
         <label for="content">Content *</label>
         <textarea id="content" name="content" rows="15" required>{{ $formData['content'] }}</textarea>

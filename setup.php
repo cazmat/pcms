@@ -77,6 +77,8 @@ $schema = [
         slug VARCHAR(255) NOT NULL UNIQUE,
         content TEXT NOT NULL,
         excerpt VARCHAR(500),
+        meta_description VARCHAR(160),
+        meta_keywords VARCHAR(255),
         author VARCHAR(100) NOT NULL,
         category_id INT NULL,
         status ENUM('draft', 'published') DEFAULT 'draft',
