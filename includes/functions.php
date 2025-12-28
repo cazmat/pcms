@@ -1041,6 +1041,21 @@ function deleteCategory($id) {
 }
 
 /**
+ * Get post count for a category
+ */
+function getCategoryPostCount($category_id) {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT COUNT(*) as count FROM posts WHERE category_id = ?");
+    $stmt->bind_param('i', $category_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return $row ? (int)$row['count'] : 0;
+}
+
+/**
  * Get posts by category (with pagination)
  */
 function getPostsByCategory($category_id, $limit = null, $offset = 0, $published_only = true) {
