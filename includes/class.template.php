@@ -28,8 +28,9 @@ class Template {
         // Extract data array into variables
         extract($data);
 
-        // Make $system available in templates
+        // Make $system and $template available in templates
         $system = $this->system;
+        $template = $this;
 
         // Start output buffering
         ob_start();
@@ -52,6 +53,7 @@ class Template {
             // Extract data for layout too
             extract($this->data);
             $system = $this->system;
+            $template = $this;
 
             ob_start();
             $parsed_layout = $this->parse(file_get_contents($layout_path));
@@ -78,8 +80,9 @@ class Template {
         // Extract data array into variables
         extract($merged_data);
 
-        // Make $system available in partials
+        // Make $system and $template available in partials
         $system = $this->system;
+        $template = $this;
 
         // Parse and include the partial
         $parsed_content = $this->parse(file_get_contents($partial_path));
@@ -112,7 +115,7 @@ class Template {
 
         // Parse @include directive
         $content = preg_replace_callback('/@include\([\'"](.+?)[\'"]\)/', function($matches) {
-            return '<?php $this->partial(\'' . $matches[1] . '\'); ?>';
+            return '<?php $template->partial(\'' . $matches[1] . '\'); ?>';
         }, $content);
 
         // Parse {{ $var }} syntax - escaped output
