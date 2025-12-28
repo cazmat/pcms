@@ -151,7 +151,7 @@ None currently.
   - [x] Update setup.sql with categories & tags schema
   - [x] Update setup.php with categories & tags schema
   - [x] Admin category management pages (list, create, edit, delete)
-  - [ ] Admin tag management pages (list, create, edit, delete)
+  - [x] Admin tag management pages (list, create, edit, delete)
   - [ ] Update post edit page with category dropdown and tag selection
   - [ ] Frontend category archive pages
   - [ ] Frontend tag archive pages
