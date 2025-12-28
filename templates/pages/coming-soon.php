@@ -201,41 +201,13 @@
         </div>
 
         <!-- Coming Soon Message -->
-        <h1 class="coming-soon-title">We're Launching Soon!</h1>
+        <h1 class="coming-soon-title">Coming!</h1>
         <p class="coming-soon-message">
-            Our website is currently under construction. We're working hard to bring you an amazing experience.
-            Check back soon to see what we've been building!
+            The website is currently under construction.
         </p>
-
-        <!-- Features Preview -->
-        <div class="features-preview">
-            <h3>What to expect:</h3>
-            <ul class="features-list">
-                <li>
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-4.41 0-8-3.59-8-8V8.3l8-4.44 8 4.44V12c0 4.41-3.59 8-8 8z"/>
-                        <path d="M10.5 13L8 10.5l-1.41 1.41L10.5 15.83l7-7L16.09 7.41z"/>
-                    </svg>
-                    <span>Fresh content and engaging articles</span>
-                </li>
-                <li>
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <span>Modern design and seamless experience</span>
-                </li>
-                <li>
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
-                    </svg>
-                    <span>Interactive features and community engagement</span>
-                </li>
-            </ul>
-        </div>
 
         <!-- Status Message -->
         <div class="status-info">
-            <p><strong>Status:</strong> Building something awesome</p>
             <p><strong>Expected:</strong> Soon</p>
         </div>
     </div>

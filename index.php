@@ -12,10 +12,8 @@ if ($system->get_setting('maintenance') && !isLoggedIn()) {
 
 // Check for coming soon mode
 if ($system->get_setting('coming_soon') && !isLoggedIn()) {
-    $template = new Template();
-    $template->render('pages/coming-soon.php', [
-        'system' => $system
-    ]);
+    //$template = new Template();
+    echo $template->render('pages/coming-soon.php');
     exit;
 }
 
