@@ -150,7 +150,7 @@ None currently.
   - [x] Enrich homepage posts with category data
   - [x] Update setup.sql with categories & tags schema
   - [x] Update setup.php with categories & tags schema
-  - [ ] Admin category management pages (list, create, edit, delete)
+  - [x] Admin category management pages (list, create, edit, delete)
   - [ ] Admin tag management pages (list, create, edit, delete)
   - [ ] Update post edit page with category dropdown and tag selection
   - [ ] Frontend category archive pages
