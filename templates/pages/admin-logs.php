@@ -1,7 +1,15 @@
 @extends('admin.php')
 
+@section('head')
+<link rel="stylesheet" href="<?php echo e($system->get_setting('base_url')); ?>/css/admin-style.css">
+@endsection
+
 @section('title')
 Error Logs
+@endsection
+
+@section('pageclass')
+admin-logs
 @endsection
 
 @section('content')
