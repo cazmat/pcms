@@ -153,10 +153,10 @@ None currently.
   - [x] Admin category management pages (list, create, edit, delete)
   - [x] Admin tag management pages (list, create, edit, delete)
   - [x] Update post edit page with category dropdown and tag selection
-  - [ ] Frontend category archive pages
-  - [ ] Frontend tag archive pages
-  - [ ] URL routing rules (.htaccess)
-  - [ ] CSS styling for category/tag UI elements
+  - [x] Frontend category archive pages
+  - [x] Frontend tag archive pages
+  - [x] URL routing rules (.htaccess)
+  - [x] CSS styling for category/tag UI elements
   - [x] Update admin navigation with Categories and Tags links
   - [ ] Homepage category filter support (query parameter)
 
