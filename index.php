@@ -4,17 +4,10 @@ define("ROOT_PATH", "./");
 require_once(ROOT_PATH ."includes/init.php");
 
 // Check for maintenance mode
-if ($system->get_setting('maintenance') && !isLoggedIn()) {
-    require_once 'maintenance.php';
-    exit;
-}
+showMaintenance();
 
 // Check for coming soon mode
-if ($system->get_setting('coming_soon') && !isLoggedIn()) {
-    //$template = new Template();
-    echo $template->render('pages/coming-soon.php');
-    exit;
-}
+showComingSoon();
 
 // Pagination setup
 $current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
