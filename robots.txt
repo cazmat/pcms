@@ -1,0 +1,26 @@
+# robots.txt for PHP Blog System
+# Controls search engine crawler access
+
+# Allow all robots to access the site by default
+User-agent: *
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /setup.php
+
+# Disallow sensitive directories
+Disallow: /includes/
+Disallow: /vendor/
+
+# Disallow specific file types
+Disallow: /*.sql$
+Disallow: /*.log$
+
+# Allow access to CSS, JS, and images
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /assets/
+
+# Sitemap location (when implemented)
+# Sitemap: http://yourdomain.com/sitemap.xml
