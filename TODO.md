@@ -165,7 +165,6 @@ None currently.
 - [ ] **SEO Improvements**
   - [x] Meta description field
   - [x] Meta keywords field
-  - [ ] XML sitemap generation
   - [ ] Robots.txt file
 
 - [ ] **Performance Optimization**
