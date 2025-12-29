@@ -119,10 +119,10 @@ class Template {
         }, $content);
 
         // Parse @if directive
-        $content = preg_replace('/@if\s*\((.+?)\)/', '<?php if ($1): ?>', $content);
+        $content = preg_replace('/@if\s*\((.+)\)/', '<?php if ($1): ?>', $content);
 
         // Parse @elseif directive
-        $content = preg_replace('/@elseif\s*\((.+?)\)/', '<?php elseif ($1): ?>', $content);
+        $content = preg_replace('/@elseif\s*\((.+)\)/', '<?php elseif ($1): ?>', $content);
 
         // Parse @else directive
         $content = preg_replace('/@else/', '<?php else: ?>', $content);
