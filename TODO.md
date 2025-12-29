@@ -167,13 +167,6 @@ None currently.
   - [x] Meta keywords field
   - [x] Robots.txt file
 
-- [ ] **Performance Optimization**
-  - [ ] Database query optimization
-  - [ ] Caching system (file/Redis/Memcached)
-  - [ ] Asset minification (CSS/JS)
-  - [ ] Image lazy loading
-  - [ ] GZIP compression
-
 ### Low Priority - Nice to Have
 
 - [ ] **Additional Error Pages**
@@ -313,6 +306,13 @@ None currently reported.
 - Social media integration (basic URL settings ✅ completed, sharing features pending)
 - Open Graph tags for social media sharing
 - Twitter Card tags for Twitter sharing
+- XML sitemap generation
+- **Performance Optimization**
+  - Database query optimization
+  - Caching system (file/Redis/Memcached)
+  - Asset minification (CSS/JS)
+  - Image lazy loading
+  - GZIP compression
 - REST API
 - GraphQL API
 - Theme system
