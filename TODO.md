@@ -165,8 +165,6 @@ None currently.
 - [ ] **SEO Improvements**
   - [x] Meta description field
   - [x] Meta keywords field
-  - [ ] Open Graph tags
-  - [ ] Twitter Card tags
   - [ ] XML sitemap generation
   - [ ] Robots.txt file
 
@@ -314,6 +312,8 @@ None currently reported.
 - Email notifications
 - Password reset functionality (email-based with tokens)
 - Social media integration (basic URL settings ✅ completed, sharing features pending)
+- Open Graph tags for social media sharing
+- Twitter Card tags for Twitter sharing
 - REST API
 - GraphQL API
 - Theme system
