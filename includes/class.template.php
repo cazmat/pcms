@@ -118,6 +118,18 @@ class Template {
             return '<?php $template->partial(\'' . $matches[1] . '\'); ?>';
         }, $content);
 
+        // Parse @if directive
+        $content = preg_replace('/@if\s*\((.+?)\)/', '<?php if ($1): ?>', $content);
+
+        // Parse @elseif directive
+        $content = preg_replace('/@elseif\s*\((.+?)\)/', '<?php elseif ($1): ?>', $content);
+
+        // Parse @else directive
+        $content = preg_replace('/@else/', '<?php else: ?>', $content);
+
+        // Parse @endif directive
+        $content = preg_replace('/@endif/', '<?php endif; ?>', $content);
+
         // Parse {{ $var }} syntax - escaped output
         $content = preg_replace('/\{\{\s*(.+?)\s*\}\}/', '<?php echo e($1); ?>', $content);
 
