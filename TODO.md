@@ -267,23 +267,28 @@ None currently.
 - Toggle switches for boolean settings
 - Individual and bulk reset functionality
 - Input validation and CSRF protection
-- Social media URL settings (GitHub, Twitter, LinkedIn, Instagram, Twitch)
+- Social media URL settings (GitHub, Twitch)
+- Allow contact setting for footer contact link
 
-### v0.8 (Current) - Content Organization & SEO
+### v0.8 - Content Organization & SEO ✅
 - Categories & tags system
 - Category/tag management UI
-- Filter posts by category/tag
-- SEO improvements (meta tags, Open Graph, Twitter Cards)
-- XML sitemap generation
-- Robots.txt file
+- Category assignment on post create/edit
+- Tag selection on post create/edit
+- Filter posts by category/tag on homepage
+- SEO meta description and keywords fields
+- Robots.txt file for search engine crawler control
+- Custom 403 Forbidden error page
+- Template system @if/@elseif/@else/@endif directives
+- User menu dropdown with login/logout in header
 
 ### v1.0 - Production Ready
-- Performance optimization (database queries, caching, asset minification)
 - Comprehensive documentation (API docs, deployment guide, security best practices)
 - Testing suite (unit tests, integration tests, security testing)
 - Production deployment checklist
 - Database backup and migration scripts
 - Monitoring and error tracking setup
+- Final security audit and hardening
 
 ## 📝 Notes
 
