@@ -178,7 +178,7 @@ None currently.
 
 - [ ] **Additional Error Pages**
   - [ ] Custom 402 error page (Payment Required)
-  - [ ] Custom 403 error page (Forbidden)
+  - [x] Custom 403 error page (Forbidden)
 
 - [ ] **Comments System**
   - [ ] Comment submission
