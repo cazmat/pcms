@@ -195,7 +195,7 @@ None currently.
 - [ ] **Documentation**
   - [ ] API documentation
   - [ ] Code comments
-  - [ ] Deployment guide
+  - [x] Deployment guide
   - [ ] Security best practices guide
   - [ ] Upgrade guide
 
@@ -215,10 +215,10 @@ None currently.
   - [ ] Version number tracking
 
 - [ ] **Deployment**
-  - [ ] Production deployment checklist
+  - [x] Production deployment checklist
   - [ ] Database backup script
   - [ ] Update mechanism
-  - [ ] Rollback procedure
+  - [x] Rollback procedure
 
 - [ ] **Monitoring**
   - [ ] Error monitoring integration
